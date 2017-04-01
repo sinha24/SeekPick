@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SeekPick</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_dash">DashActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+
+</resources>
