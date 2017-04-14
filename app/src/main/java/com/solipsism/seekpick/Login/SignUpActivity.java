@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -38,7 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
     AutoCompleteTextView email, name, address, pinCode, phone, username, password, cPassword;
     Button signUp;
     ImageButton location;
-    String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation;
+    String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation, sLat, sLong;
     ProgressDialog progressDialog;
     int PLACE_PICKER_REQUEST = 1;
 
@@ -78,7 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (isonline()) {
+                if (isOnline()) {
                     sEmail = email.getText().toString();
                     sName = name.getText().toString();
                     sAddress = address.getText().toString();
@@ -147,15 +148,16 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(data, this);
+                Place place = PlacePicker.getPlace(this, data);
                 sLocation = String.format("%s", place.getName());
+                Log.e("location" , sLocation);
                 location.setBackgroundColor(Color.parseColor("#00aa00"));
             }
         }
     }
 
 
-    public boolean isonline() {
+    public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
@@ -204,9 +206,11 @@ public class SignUpActivity extends AppCompatActivity {
                 params.put("email", sEmail);
                 params.put("phone", sPhone);
                 params.put("pincode", sPinCode);
-                params.put("location", sLocation);
+                params.put("location", sAddress);
                 params.put("username", sUsername);
                 params.put("password", sPassword);
+                params.put("lat", sLat);
+                params.put("long", sLong);
 
 
                 //returning parameters

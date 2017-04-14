@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isonline()) {
+                if (isOnline()) {
                     sEmail = email.getText().toString();
                     sPassword = password.getText().toString();
                     if (sEmail.length() > 0 && sEmail.contains("@")) {
@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public boolean isonline() {
+    public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
