@@ -26,6 +26,7 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.solipsism.seekpick.R;
 
 import org.json.JSONException;
@@ -149,8 +150,11 @@ public class SignUpActivity extends AppCompatActivity {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(this, data);
-                sLocation = String.format("%s", place.getName());
-                Log.e("location" , sLocation);
+                LatLng latLng = place.getLatLng();
+                sLat = String.valueOf(latLng.latitude);
+                sLong = String.valueOf(latLng.longitude);
+                String sLocation = String.format("Place: %s", place.getName());
+                Toast.makeText(this, sLocation, Toast.LENGTH_LONG).show();
                 location.setBackgroundColor(Color.parseColor("#00aa00"));
             }
         }
