@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                     sPassword = password.getText().toString();
                     if (sEmail.length() > 0 && sEmail.contains("@")) {
                         if (sPassword.length() > 0) {
-                           // login("https://seekpick.herokuapp.com/login");
+                            login("https://seekpick.herokuapp.com/login");
                             Intent i = new Intent(LoginActivity.this, DashActivity.class);
                             startActivity(i);
                             finish();
