@@ -42,14 +42,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         email = (AutoCompleteTextView) findViewById(R.id.login_email);
         password = (AutoCompleteTextView) findViewById(R.id.login_password);
         login = (Button) findViewById(R.id.login_button);
         loginUp = (ImageView) findViewById(R.id.login_up);
         arrowShake = AnimationUtils.loadAnimation(this, R.anim.arrorw_shake);
         loginUp.startAnimation(arrowShake);
-
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

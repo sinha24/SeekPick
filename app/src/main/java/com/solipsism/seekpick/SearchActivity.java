@@ -17,7 +17,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.solipsism.seekpick.Dash.DashActivity;
 import com.solipsism.seekpick.Login.LoginActivity;
+import com.solipsism.seekpick.utils.PrefsHelper;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -44,9 +46,15 @@ public class SearchActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SearchActivity.this, LoginActivity.class);
-                startActivity(i);
-                overridePendingTransition(R.anim.up_in, R.anim.fade_out);
+                if (PrefsHelper.getPrefsHelper(SearchActivity.this).getPref(PrefsHelper.PREF_TOKEN).equals("token")) {
+                    Intent i = new Intent(SearchActivity.this, LoginActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.up_in, R.anim.fade_out);
+                } else {
+                    Intent i = new Intent(SearchActivity.this, DashActivity.class);
+                    startActivity(i);
+                    finish();
+                }
             }
         });
         searchUp.setOnClickListener(new View.OnClickListener() {
