@@ -16,7 +16,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#fff">
+        android:background="@drawable/raviblur">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -31,6 +31,15 @@
                 android:orientation="vertical"
                 android:padding="16sp">
 
+                <TextView
+                    android:id="@+id/signuplogo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="SeekPick"
+                    android:textSize="50dp"
+                    android:textStyle="bold"/>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -157,10 +166,12 @@
 
                 <Button
                     android:id="@+id/signup_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Sign up"
-                    android:textSize="20sp" />
+                    android:textSize="20dp"
+                    android:background="@drawable/button_border"
+                    />
 
             </LinearLayout>
         </ScrollView>

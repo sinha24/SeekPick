@@ -2,6 +2,7 @@ package com.solipsism.seekpick.Login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     AutoCompleteTextView email,password;
     Button login;
+    TextView loginLogo;
     Login log;
     String sEmail, sPassword;
     ImageView loginUp;
@@ -42,13 +44,16 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        loginLogo= (TextView) findViewById(R.id.loginlogo);
         email = (AutoCompleteTextView) findViewById(R.id.login_email);
         password = (AutoCompleteTextView) findViewById(R.id.login_password);
         login = (Button) findViewById(R.id.login_button);
         loginUp = (ImageView) findViewById(R.id.login_up);
         arrowShake = AnimationUtils.loadAnimation(this, R.anim.arrorw_shake);
         loginUp.startAnimation(arrowShake);
+        Typeface custom_font = Typeface.createFromAsset(getAssets(), "alex.ttf");
+        loginLogo.setTypeface(custom_font);
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

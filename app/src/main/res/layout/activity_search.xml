@@ -4,25 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/cartblur"
     tools:context="com.solipsism.seekpick.SearchActivity">
     <LinearLayout
         android:layout_weight="1"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/searchlogo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="SeekPick"
+            android:textStyle="bold"
+            android:textSize="50dp" />
+
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
         android:orientation="vertical"
-        android:padding="9sp">
+        android:padding="16dp">
 
         <EditText
             android:id="@+id/search_text"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@android:drawable/ic_search_category_default"
@@ -31,10 +42,14 @@
         </EditText>
 
         <Button
+            android:layout_margin="10dp"
             android:id="@+id/search_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SEARCH" />
+            android:text="SEARCH"
+            android:background="@drawable/button_border"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 </ScrollView>
@@ -50,7 +65,8 @@
             android:id="@+id/search_sign_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Are you a seller, SIGN IN"
+            android:text="Are you a seller?, SIGN IN"
+            android:textSize="20dp"
             android:textAlignment="center" />
 
         <ImageView
@@ -58,6 +74,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10sp"
-            android:src="@drawable/ic_up_arrow" />
+            android:src="@drawable/up_arrow" />
     </LinearLayout>
 </LinearLayout>

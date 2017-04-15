@@ -1,6 +1,7 @@
 package com.solipsism.seekpick;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ public class SearchActivity extends AppCompatActivity {
     EditText searchView;
     Button searchButton;
     ImageView searchUp;
-    TextView signIn;
+    TextView signIn, searchLogo;
     Animation arrowShake;
 
     @Override
@@ -32,10 +33,14 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         searchView = (EditText) findViewById(R.id.search_text);
+        searchLogo= (TextView) findViewById(R.id.searchlogo);
         searchButton = (Button) findViewById(R.id.search_btn);
         searchUp = (ImageView) findViewById(R.id.search_up);
         signIn = (TextView) findViewById(R.id.search_sign_in);
         arrowShake = AnimationUtils.loadAnimation(this, R.anim.arrorw_shake);
+
+        Typeface custom_font = Typeface.createFromAsset(getAssets(), "alex.ttf");
+        searchLogo.setTypeface(custom_font);
 
         searchUp.startAnimation(arrowShake);
         searchView.requestFocus();
