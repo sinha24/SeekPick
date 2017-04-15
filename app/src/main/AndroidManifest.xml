@@ -38,7 +38,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Dash.DashActivity"
-            android:label="@string/title_activity_dash" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyA0Tnzaf3S0qyzufk37JeGVFbxk5Dbc5A0"/>

@@ -18,13 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.solipsism.seekpick.Dash.DashActivity;
+import com.solipsism.seekpick.Dash.SearchFragment;
 import com.solipsism.seekpick.Login.LoginActivity;
 import com.solipsism.seekpick.utils.PrefsHelper;
 
 public class SearchActivity extends AppCompatActivity {
 
-    EditText searchView;
-    Button searchButton;
+    SearchFragment msearchFragment;
     ImageView searchUp;
     TextView signIn;
     Animation arrowShake;
@@ -33,20 +33,21 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        msearchFragment = new SearchFragment();
 
-        searchView = (EditText) findViewById(R.id.search_text);
-        searchButton = (Button) findViewById(R.id.search_btn);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.searchFrame, msearchFragment).commit();
+
         searchUp = (ImageView) findViewById(R.id.search_up);
         signIn = (TextView) findViewById(R.id.search_sign_in);
         arrowShake = AnimationUtils.loadAnimation(this, R.anim.arrorw_shake);
 
         searchUp.startAnimation(arrowShake);
-        searchView.requestFocus();
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (PrefsHelper.getPrefsHelper(SearchActivity.this).getPref(PrefsHelper.PREF_TOKEN).equals("token")) {
+                if (PrefsHelper.getPrefsHelper(SearchActivity.this).getPref(PrefsHelper.PREF_TOKEN,"token").equals("token")) {
                     Intent i = new Intent(SearchActivity.this, LoginActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.anim.up_in, R.anim.fade_out);
