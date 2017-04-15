@@ -47,7 +47,7 @@ public class SearchActivity extends AppCompatActivity {
                 Intent i = new Intent(SearchActivity.this, LoginActivity.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.up_in, R.anim.fade_out);
-                Toast.makeText(SearchActivity.this,"shubham ki branch",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this,"shubham ravi ki branch",Toast.LENGTH_SHORT).show();
             }
         });
         searchUp.setOnClickListener(new View.OnClickListener() {
