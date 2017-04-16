@@ -48,7 +48,7 @@ public class SearchFragment extends Fragment {
 
     EditText searchView;
     Button searchButton;
-    String searchText = "", sLat, sLong;
+    String searchText = "", sLat="", sLong="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +56,7 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
+        Log.e("search ", "start");
         searchView = (EditText) rootView.findViewById(R.id.search_text);
         searchButton = (Button) rootView.findViewById(R.id.search_btn);
         searchView.requestFocus();
@@ -69,8 +70,11 @@ public class SearchFragment extends Fragment {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Log.e("search ", "check");
             return rootView;
         }
+        Log.e("search ", "checked");
+
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -94,6 +98,8 @@ public class SearchFragment extends Fragment {
 
             }
         });
+        Log.e("search ", "gpsd");
+
         if (sLat.isEmpty() && sLong.isEmpty()) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
                 @Override
@@ -119,7 +125,7 @@ public class SearchFragment extends Fragment {
                 }
             });
         }
-        Log.e("location ", sLat+ " "+ sLong);
+        Log.e("search ", "NWd");
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +141,9 @@ public class SearchFragment extends Fragment {
                                 .appendQueryParameter("id", searchText);
                         String urlQuery = builder.build().toString();
                         Log.e("url ", urlQuery);
+                        Intent i = new Intent(getActivity(), SearchResultActivity.class);
+                        i.putExtra("response","");
+                        startActivity(i);
                         search(urlQuery);
                     }
                 } else {
@@ -164,6 +173,7 @@ public class SearchFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e("Search error", String.valueOf(error));
                 Toast.makeText(getActivity(), "Error in search ", Toast.LENGTH_SHORT).show();
             }
         }) {
