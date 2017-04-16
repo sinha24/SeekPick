@@ -24,12 +24,12 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
         if (!(PrefsHelper.getPrefsHelper(SearchActivity.this).getPref(PrefsHelper.PREF_TOKEN,"token").equals("token"))) {
             Intent i = new Intent(SearchActivity.this, DashActivity.class);
             startActivity(i);
             finish();
         }
+        setContentView(R.layout.activity_search);
         searchFragment = new SearchFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.searchFrame, searchFragment).commit();
