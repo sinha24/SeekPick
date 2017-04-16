@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.solipsism.seekpick.Login.LoginActivity;
 import com.solipsism.seekpick.R;
+import com.solipsism.seekpick.Search.SearchFragment;
 import com.solipsism.seekpick.utils.PrefsHelper;
 
 public class DashActivity extends AppCompatActivity {

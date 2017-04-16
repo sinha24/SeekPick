@@ -26,7 +26,7 @@
             android:value="AIzaSyA0Tnzaf3S0qyzufk37JeGVFbxk5Dbc5A0" />
 
         <activity
-            android:name=".SearchActivity"
+            android:name=".Search.SearchActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,7 +43,7 @@
         <activity android:name=".Dash.DashActivity"
             android:label="Dashboard"/>
         <activity
-            android:name=".SearchResultActivity"
+            android:name=".Search.SearchResultActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 

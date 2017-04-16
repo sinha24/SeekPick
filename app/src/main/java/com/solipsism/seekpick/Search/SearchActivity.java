@@ -1,4 +1,4 @@
-package com.solipsism.seekpick;
+package com.solipsism.seekpick.Search;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.solipsism.seekpick.Dash.DashActivity;
-import com.solipsism.seekpick.Dash.SearchFragment;
 import com.solipsism.seekpick.Login.LoginActivity;
+import com.solipsism.seekpick.R;
 import com.solipsism.seekpick.utils.PrefsHelper;
 
 public class SearchActivity extends AppCompatActivity {
