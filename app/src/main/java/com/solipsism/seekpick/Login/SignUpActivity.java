@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -36,7 +38,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
-
+TextView signupLogo;
     AutoCompleteTextView email, name, address, pinCode, phone, username, password, cPassword;
     Button signUp;
     ImageButton location;
@@ -48,7 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
+    signupLogo= (TextView) findViewById(R.id.signuplogo);
         email = (AutoCompleteTextView) findViewById(R.id.signup_email);
         name = (AutoCompleteTextView) findViewById(R.id.signup_name);
         address = (AutoCompleteTextView) findViewById(R.id.signup_address);
@@ -60,6 +62,9 @@ public class SignUpActivity extends AppCompatActivity {
 
         signUp = (Button) findViewById(R.id.signup_button);
         location = (ImageButton) findViewById(R.id.signup_location);
+
+        Typeface custom_font = Typeface.createFromAsset(getAssets(), "alex.ttf");
+        signupLogo.setTypeface(custom_font);
 
         location.setOnClickListener(new View.OnClickListener() {
             @Override

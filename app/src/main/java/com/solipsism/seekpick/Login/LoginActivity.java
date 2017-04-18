@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -43,21 +42,26 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         email = (AutoCompleteTextView) findViewById(R.id.login_email);
         password = (AutoCompleteTextView) findViewById(R.id.login_password);
         login = (Button) findViewById(R.id.login_button);
         loginUp = (ImageView) findViewById(R.id.login_up);
         arrowShake = AnimationUtils.loadAnimation(this, R.anim.arrorw_shake);
         loginUp.startAnimation(arrowShake);
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isOnline()) {
                     sEmail = email.getText().toString();
                     sPassword = password.getText().toString();
-                    if (sEmail.length() > 0) {
+                    if (sEmail.length() > 0 && sEmail.contains("@")) {
                         if (sPassword.length() > 0) {
                             login("https://seekpick.herokuapp.com/login");
+                            Intent i = new Intent(LoginActivity.this, DashActivity.class);
+                            startActivity(i);
+                            finish();
                         } else {
                             password.requestFocus();
                             password.setError("Check Password");
@@ -114,7 +118,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         log = LoginJsonParser.parsefeed(response);
-                        Log.e("Login",log.getSuccess());
                         if (log.getSuccess().equals("true")) {
                             PrefsHelper.getPrefsHelper(LoginActivity.this).savePref(PrefsHelper.PREF_TOKEN, log.getToken());
                             onGettingResponse();
@@ -133,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new Hashtable<>();
-                params.put("username", sEmail);
+                params.put("email", sEmail);
                 params.put("password", sPassword);
 
                 //returning parameters
