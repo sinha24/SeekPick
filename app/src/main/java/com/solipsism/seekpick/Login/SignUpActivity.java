@@ -101,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                     if (sCPassword.equals(sPassword)) {
                                                         progressDialog = new ProgressDialog(SignUpActivity.this);
                                                         progressDialog.setTitle("Signing in..");
-                                                        progressDialog.setCancelable(false); // disable dismiss by tapping outside of the dialog
+                                                        progressDialog.setCancelable(false);
                                                         progressDialog.show();
                                                         SignUp("https://seekpick.herokuapp.com/register");
                                                     } else {
@@ -153,7 +153,7 @@ public class SignUpActivity extends AppCompatActivity {
                 LatLng latLng = place.getLatLng();
                 sLat = String.valueOf(latLng.latitude);
                 sLong = String.valueOf(latLng.longitude);
-                String sLocation = String.format("Place: %s", place.getName());
+                sLocation = String.format("Place: %s", place.getName());
                 Toast.makeText(this, sLocation, Toast.LENGTH_LONG).show();
                 location.setBackgroundColor(Color.parseColor("#00aa00"));
             }
@@ -188,10 +188,12 @@ public class SignUpActivity extends AppCompatActivity {
                             message = obje.getString("message");
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            progressDialog.dismiss();
                         }
                         if (success.equals("true")) {
                             onGettingResponse();
                         } else {
+                            progressDialog.dismiss();
                             Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_LONG).show();
                         }
                     }

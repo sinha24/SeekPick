@@ -12,10 +12,10 @@ import com.solipsism.seekpick.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddFragment extends Fragment {
+public class AddProductFragment extends Fragment {
 
 
-    public AddFragment() {
+    public AddProductFragment() {
         // Required empty public constructor
     }
 
