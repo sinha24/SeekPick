@@ -1,18 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.solipsism.seekpick.Login.SignUpActivity">
-
-    <!-- Login progress -->
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+    tools:context="com.solipsism.seekpick.Dash.MyProfileFragment">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -93,13 +84,13 @@
                         android:layout_weight="7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                    <AutoCompleteTextView
-                        android:id="@+id/signup_pincode"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="PIN CODE"
-                        android:inputType="number"
-                        android:maxLength="6" />
+                        <AutoCompleteTextView
+                            android:id="@+id/signup_pincode"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="PIN CODE"
+                            android:inputType="number"
+                            android:maxLength="6" />
                     </android.support.design.widget.TextInputLayout>
 
                     <ImageButton
@@ -169,7 +160,7 @@
                     android:id="@+id/signup_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sign up"
+                    android:text="Save Changes"
                     android:textSize="20dp"
                     android:background="@drawable/button_border"
                     />
@@ -177,4 +168,6 @@
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+
+
+</FrameLayout>

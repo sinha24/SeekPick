@@ -11,6 +11,7 @@ public class DashActivity extends AppCompatActivity {
     AddFragment maddFragment;
     SearchFragment msearchFragment;
     MyProductsFragment myProductsFragment;
+    MyProfileFragment myProfileFragment;
 
 
     @Override
@@ -20,9 +21,10 @@ public class DashActivity extends AppCompatActivity {
         maddFragment = new AddFragment();
         msearchFragment = new SearchFragment();
         myProductsFragment = new MyProductsFragment();
+        myProfileFragment = new MyProfileFragment();
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content, msearchFragment).commit();
+                .add(R.id.content, msearchFragment).commit();
 
         BottomNavigationView navigation =
                 (BottomNavigationView) findViewById(R.id.navigation);
@@ -46,6 +48,10 @@ public class DashActivity extends AppCompatActivity {
                     case R.id.navigation_notifications:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.content, myProductsFragment).commit();
+                        break;
+                    case R.id.navigation_myprofile:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.content, myProfileFragment).commit();
                         break;
                 }
             }

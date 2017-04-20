@@ -15,5 +15,10 @@
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="My Products" />
+    <item
+        android:id="@+id/navigation_myprofile"
+        android:icon="@drawable/ic_myprofile"
+        android:title="My Profile" />
+
 
 </menu>
