@@ -12,6 +12,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -29,8 +31,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.solipsism.seekpick.Dash.DashActivity;
-import com.solipsism.seekpick.Login.LoginActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.solipsism.seekpick.R;
 
 import java.util.Hashtable;
@@ -39,7 +42,8 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
 
     public SearchFragment() {
@@ -48,7 +52,8 @@ public class SearchFragment extends Fragment {
 
     EditText searchView;
     Button searchButton;
-    String searchText = "", sLat="", sLong="";
+    String searchText = "", sLat = "", sLong = "";
+    GoogleApiClient mGoogleApiClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +61,6 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
-        Log.e("search ", "start");
         searchView = (EditText) rootView.findViewById(R.id.search_text);
         searchButton = (Button) rootView.findViewById(R.id.search_btn);
         searchView.requestFocus();
@@ -70,17 +74,15 @@ public class SearchFragment extends Fragment {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            Log.e("search ", "check");
             return rootView;
         }
-        Log.e("search ", "checked");
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 sLat = String.valueOf(location.getLatitude());
                 sLong = String.valueOf(location.getLongitude());
-                Log.e("Location ", sLat+ " "+ sLong);
+                Log.e("Location ", sLat + " " + sLong);
             }
 
             @Override
@@ -98,7 +100,6 @@ public class SearchFragment extends Fragment {
 
             }
         });
-        Log.e("search ", "gpsd");
 
         if (sLat.isEmpty() && sLong.isEmpty()) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
@@ -106,7 +107,7 @@ public class SearchFragment extends Fragment {
                 public void onLocationChanged(Location location) {
                     sLat = String.valueOf(location.getLatitude());
                     sLong = String.valueOf(location.getLongitude());
-                    Log.e("Location ", sLat+ " "+ sLong);
+                    Log.e("Location ", sLat + " " + sLong);
                 }
 
                 @Override
@@ -125,13 +126,21 @@ public class SearchFragment extends Fragment {
                 }
             });
         }
-        Log.e("search ", "NWd");
+
+        // Create an instance of GoogleAPIClient.
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchText = String.valueOf(searchView.getText());
-                Log.e("search","click "+searchText);
+                Log.e("search", "click " + searchText);
                 if (searchText.length() > 0) {
                     if (isOnline()) {
                         Uri.Builder builder = new Uri.Builder();
@@ -141,9 +150,6 @@ public class SearchFragment extends Fragment {
                                 .appendQueryParameter("id", searchText);
                         String urlQuery = builder.build().toString();
                         Log.e("url ", urlQuery);
-                        Intent i = new Intent(getActivity(), SearchResultActivity.class);
-                        i.putExtra("response","");
-                        startActivity(i);
                         search(urlQuery);
                     }
                 } else {
@@ -153,6 +159,16 @@ public class SearchFragment extends Fragment {
             }
         });
         return rootView;
+    }
+
+    public void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    public void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
     public boolean isOnline() {
@@ -167,7 +183,7 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         Intent i = new Intent(getActivity(), SearchResultActivity.class);
-                        i.putExtra("response",response);
+                        i.putExtra("response", response);
                         startActivity(i);
                     }
                 }, new Response.ErrorListener() {
@@ -181,6 +197,7 @@ public class SearchFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new Hashtable<>();
+                Log.e("Params", sLat + " " + sLong);
                 params.put("lat", sLat);
                 params.put("long", sLong);
                 params.put("range", "50");
@@ -193,6 +210,39 @@ public class SearchFragment extends Fragment {
 
         //Adding request to the queue
         requestQueue.add(stringRequest);
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            sLat = (String.valueOf(mLastLocation.getLatitude()));
+            sLong = (String.valueOf(mLastLocation.getLongitude()));
+            Log.e("location",sLat+"--"+sLong);
+        }
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.e("sus",sLat+"--"+sLong);
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e("fail",sLat+"--"+sLong);
 
     }
 }
