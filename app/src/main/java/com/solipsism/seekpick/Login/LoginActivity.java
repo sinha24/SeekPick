@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                         email.setError("Check Email");
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Network isnt avialable", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Network isnt available", Toast.LENGTH_LONG).show();
                 }
             }
         });

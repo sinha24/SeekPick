@@ -38,7 +38,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
-TextView signupLogo;
+    TextView signupLogo;
     AutoCompleteTextView email, name, address, pinCode, phone, username, password, cPassword;
     Button signUp;
     ImageButton location;
