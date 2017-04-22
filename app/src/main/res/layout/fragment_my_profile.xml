@@ -1,18 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.solipsism.seekpick.Login.SignUpActivity">
-
-    <!-- Login progress -->
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+    tools:context="com.solipsism.seekpick.Dash.MyProfileFragment">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -25,7 +16,7 @@
             android:layout_centerInParent="true">
 
             <LinearLayout
-                android:id="@+id/email_login_form"
+                android:id="@+id/my_profile_frag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -33,7 +24,7 @@
                 android:padding="16sp">
 
                 <TextView
-                    android:id="@+id/signuplogo"
+                    android:id="@+id/myprofilelogo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -47,7 +38,7 @@
                     android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
-                        android:id="@+id/signup_email"
+                        android:id="@+id/my_profile_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Email"
@@ -61,7 +52,7 @@
                     android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
-                        android:id="@+id/signup_name"
+                        android:id="@+id/my_profile_shopname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Shop Name /Business Identity "
@@ -75,7 +66,7 @@
                     android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
-                        android:id="@+id/signup_address"
+                        android:id="@+id/my_profile_shopaddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Address"
@@ -93,17 +84,17 @@
                         android:layout_weight="7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                    <AutoCompleteTextView
-                        android:id="@+id/signup_pincode"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="PIN CODE"
-                        android:inputType="number"
-                        android:maxLength="6" />
+                        <AutoCompleteTextView
+                            android:id="@+id/my_profile_pincode"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="PIN CODE"
+                            android:inputType="number"
+                            android:maxLength="6" />
                     </android.support.design.widget.TextInputLayout>
 
                     <ImageButton
-                        android:id="@+id/signup_location"
+                        android:id="@+id/my_profile_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -115,7 +106,7 @@
                     android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
-                        android:id="@+id/signup_phone"
+                        android:id="@+id/my_profile_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Phone Number"
@@ -129,7 +120,7 @@
                     android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
-                        android:id="@+id/signup_username"
+                        android:id="@+id/my_profile_username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Username"
@@ -143,7 +134,7 @@
                     android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
-                        android:id="@+id/signup_password"
+                        android:id="@+id/my_profile_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Password"
@@ -157,7 +148,7 @@
                     android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
-                        android:id="@+id/signup_cpassword"
+                        android:id="@+id/my_profile_cpassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Confirm Password"
@@ -166,10 +157,10 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
-                    android:id="@+id/signup_button"
+                    android:id="@+id/my_profile_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sign up"
+                    android:text="Save Changes"
                     android:textSize="20dp"
                     android:background="@drawable/button_border"
                     />
@@ -177,4 +168,6 @@
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+
+
+</FrameLayout>

@@ -1,22 +1,15 @@
 package com.solipsism.seekpick.Dash;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import com.solipsism.seekpick.Login.LoginActivity;
 import com.solipsism.seekpick.R;
-import com.solipsism.seekpick.Search.SearchFragment;
-import com.solipsism.seekpick.utils.PrefsHelper;
 
 public class DashActivity extends AppCompatActivity {
-    AddProductFragment addProductFragment;
-    SearchFragment searchFragment;
+    AddFragment maddFragment;
+    SearchFragment msearchFragment;
     MyProductsFragment myProductsFragment;
 
 
@@ -24,12 +17,12 @@ public class DashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash);
-        addProductFragment = new AddProductFragment();
-        searchFragment = new SearchFragment();
+        maddFragment = new AddFragment();
+        msearchFragment = new SearchFragment();
         myProductsFragment = new MyProductsFragment();
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content, searchFragment).commit();
+                .replace(R.id.content, msearchFragment).commit();
 
         BottomNavigationView navigation =
                 (BottomNavigationView) findViewById(R.id.navigation);
@@ -40,15 +33,15 @@ public class DashActivity extends AppCompatActivity {
                 return true;
             }
 
-            private void handleBottomNavigationItemSelected(MenuItem item) {
+            private void handleBottomNavigationItemSelected (MenuItem item){
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.content, searchFragment).commit();
+                                .replace(R.id.content, msearchFragment).commit();
                         break;
                     case R.id.navigation_dashboard:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.content, addProductFragment).commit();
+                                .replace(R.id.content, maddFragment).commit();
                         break;
                     case R.id.navigation_notifications:
                         getSupportFragmentManager().beginTransaction()
@@ -57,27 +50,6 @@ public class DashActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // show dash_menu when dash_menu button is pressed
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.dash_menu, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.logout) {
-            PrefsHelper.getPrefsHelper(DashActivity.this).savePref(PrefsHelper.PREF_TOKEN, "token");
-            Intent i = new Intent(DashActivity.this, LoginActivity.class);
-            startActivity(i);
-            finish();
-        }
-        return true;
-    }
-
 }

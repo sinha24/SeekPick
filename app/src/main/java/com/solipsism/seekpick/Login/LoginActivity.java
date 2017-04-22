@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (isOnline()) {
                     sEmail = email.getText().toString();
                     sPassword = password.getText().toString();
-                    if (sEmail.length() > 0 && sEmail.contains("@")) {
+                    if (sEmail.length() > 0) {
                         if (sPassword.length() > 0) {
                             login("https://seekpick.herokuapp.com/login");
                             Intent i = new Intent(LoginActivity.this, DashActivity.class);
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                         email.setError("Check Email");
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Network isnt avialable", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Network isnt available", Toast.LENGTH_LONG).show();
                 }
             }
         });
