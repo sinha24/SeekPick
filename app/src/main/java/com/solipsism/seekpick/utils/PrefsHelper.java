@@ -3,7 +3,7 @@ package com.solipsism.seekpick.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-;
+
 
 public class PrefsHelper {
 
