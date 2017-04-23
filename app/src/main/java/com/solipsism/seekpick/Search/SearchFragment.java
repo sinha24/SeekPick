@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -64,6 +65,13 @@ public class SearchFragment extends Fragment implements
         searchView = (EditText) rootView.findViewById(R.id.search_text);
         searchButton = (Button) rootView.findViewById(R.id.search_btn);
         searchView.requestFocus();
+        GPSTracker gps = new GPSTracker(getActivity()) {
+            @Nullable
+            @Override
+            public IBinder onBind(Intent intent) {
+                return null;
+            }
+        };
 
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -136,6 +144,17 @@ public class SearchFragment extends Fragment implements
                     .build();
         }
 
+// check if GPS enabled
+        if (gps.canGetLocation()) {
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+        } else {
+// can't get location
+// GPS or Network is not enabled
+// Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
+        }
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,6 +203,7 @@ public class SearchFragment extends Fragment implements
                     public void onResponse(String response) {
                         Intent i = new Intent(getActivity(), SearchResultActivity.class);
                         i.putExtra("response", response);
+                        Log.e("response",response);
                         startActivity(i);
                     }
                 }, new Response.ErrorListener() {
@@ -229,20 +249,21 @@ public class SearchFragment extends Fragment implements
         if (mLastLocation != null) {
             sLat = (String.valueOf(mLastLocation.getLatitude()));
             sLong = (String.valueOf(mLastLocation.getLongitude()));
-            Log.e("location",sLat+"--"+sLong);
+            Log.e("location", sLat + "--" + sLong);
         }
 
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.e("sus",sLat+"--"+sLong);
+        Log.e("sus", sLat + "--" + sLong);
 
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.e("fail",sLat+"--"+sLong);
+        Log.e("fail", sLat + "--" + sLong);
 
     }
+
 }
