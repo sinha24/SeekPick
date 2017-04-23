@@ -1,14 +1,21 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.solipsism.seekpick.Dash.MyProductsFragment">
+    android:padding="16dp"
+    android:orientation="vertical"
+    tools:context="com.solipsism.seekpick.Dash.MyProfileFragment"
+    android:weightSum="1">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="my product fragment" />
 
-</FrameLayout>
+    <ListView
+        android:numColumns="2"
+        android:gravity="center"
+        android:columnWidth="100dp"
+        android:stretchMode="columnWidth"
+        android:layout_width="fill_parent"
+        android:layout_height="476dp"
+        android:id="@+id/List_view"
+        android:layout_weight="0.68" />
+
+</LinearLayout>

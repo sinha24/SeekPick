@@ -6,9 +6,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import com.solipsism.seekpick.R;
+import com.solipsism.seekpick.Search.SearchFragment;
 
 public class DashActivity extends AppCompatActivity {
-    AddFragment maddFragment;
+    AddProductFragment maddFragment;
     SearchFragment msearchFragment;
     MyProductsFragment myProductsFragment;
 
@@ -17,7 +18,7 @@ public class DashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash);
-        maddFragment = new AddFragment();
+        maddFragment = new AddProductFragment();
         msearchFragment = new SearchFragment();
         myProductsFragment = new MyProductsFragment();
 
