@@ -6,9 +6,14 @@
     tools:context="com.solipsism.seekpick.Dash.MyProductsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="my product fragment" />
+    <ListView
+        android:numColumns="2"
+        android:gravity="center"
+        android:columnWidth="100dp"
+        android:stretchMode="columnWidth"
+        android:layout_width="fill_parent"
+        android:layout_height="476dp"
+        android:id="@+id/List_view"
+        android:layout_weight="0.68" />
 
 </FrameLayout>

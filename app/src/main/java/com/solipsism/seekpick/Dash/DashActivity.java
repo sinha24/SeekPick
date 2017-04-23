@@ -6,20 +6,23 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import com.solipsism.seekpick.R;
+import com.solipsism.seekpick.Search.SearchFragment;
 
 public class DashActivity extends AppCompatActivity {
-    AddFragment maddFragment;
+    AddProductFragment maddFragment;
     SearchFragment msearchFragment;
     MyProductsFragment myProductsFragment;
+    MyProfileFragment myProfileFragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash);
-        maddFragment = new AddFragment();
+        maddFragment = new AddProductFragment();
         msearchFragment = new SearchFragment();
         myProductsFragment = new MyProductsFragment();
+        myProfileFragment = new MyProfileFragment();
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, msearchFragment).commit();
@@ -46,6 +49,10 @@ public class DashActivity extends AppCompatActivity {
                     case R.id.navigation_notifications:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.content, myProductsFragment).commit();
+                        break;
+                    case R.id.navigation_myprofile:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.content, myProfileFragment).commit();
                         break;
                 }
             }

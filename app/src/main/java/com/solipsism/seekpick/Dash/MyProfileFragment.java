@@ -4,6 +4,7 @@ package com.solipsism.seekpick.Dash;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -25,10 +26,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.solipsism.seekpick.Login.LoginActivity;
 import com.solipsism.seekpick.Login.SignUpActivity;
+import com.solipsism.seekpick.Search.SearchActivity;
 import com.solipsism.seekpick.R;
-import com.solipsism.seekpick.SearchActivity;
+import com.solipsism.seekpick.Search.SearchFragment;
 import com.solipsism.seekpick.utils.PrefsHelper;
 
 import org.json.JSONException;
@@ -38,17 +45,21 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MyProfileFragment extends Fragment {
+    ProgressDialog progressDialog;
     SearchFragment msearchFragment;
     TextView myProfileLogo;
     AutoCompleteTextView email, name, address, pinCode, phone, username, password, cPassword;
     Button saveChanges;
     ImageButton location;
     UserDetails userDetails;
-    String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation;
+    String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation, sLat, sLong;
+    int PLACE_PICKER_REQUEST = 1;
 
 
     public MyProfileFragment() {
@@ -73,14 +84,32 @@ public class MyProfileFragment extends Fragment {
         location = (ImageButton) view.findViewById(R.id.my_profile_location);
         msearchFragment = new SearchFragment();
 
-        Typeface custom_font = Typeface.createFromAsset( getActivity().getAssets() , "alex.ttf");
+        Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "alex.ttf");
         myProfileLogo.setTypeface(custom_font);
 
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                PLACE_PICKER_REQUEST = 1;
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                try {
+                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
 
         // Inflate the layout for this fragment
 
         if (isOnline()) {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setTitle("Fetching Details...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
             requestUser("https://seekpick.herokuapp.com/getuser");
         } else {
             Toast.makeText(getActivity(), "Network isnt available ", Toast.LENGTH_SHORT).show();
@@ -146,66 +175,81 @@ public class MyProfileFragment extends Fragment {
             }
 
         });
-
         return view;
     }
 
-    private void onSavedChanges() {
-    getFragmentManager().beginTransaction().replace(R.id.content, msearchFragment).commit();
- }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(getContext(), data);
+                LatLng latLng = place.getLatLng();
+                sLat = String.valueOf(latLng.latitude);
+                sLong = String.valueOf(latLng.longitude);
+                sLocation = String.format("Place: %s", place.getName());
+                Toast.makeText(getContext(), sLocation, Toast.LENGTH_LONG).show();
+                location.setBackgroundColor(Color.parseColor("#00aa00"));
+            }
+        }
+    }
 
-    public void requestData(String uri){
+    private void onSavedChanges() {
+        getFragmentManager().beginTransaction().replace(R.id.content, msearchFragment).commit();
+    }
+
+    public void requestData(String uri) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, uri,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        String success="";
-                        String message="";
+                        String success = "";
+                        String message = "";
                         try {
-                            JSONObject object= new JSONObject(response);
-                            success=object.getString("success");
-                            message=object.getString("message");
+                            JSONObject object = new JSONObject(response);
+                            success = object.getString("success");
+                            message = object.getString("message");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        if(success.equals("true")){
-                            Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
+                        if (success.equals("true")) {
+                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                             onSavedChanges();
-                        }
-                        else{
-                            Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                         }
 
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(),"Login Again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Login Again", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
-                Map<String,String> params = new Hashtable<String, String>();
+                Map<String, String> params = new Hashtable<String, String>();
                 params.put("email", sEmail);
-                params.put("password",sPassword);
-                params.put("name",sName);
-                params.put("address",sAddress);
-                params.put("phone",sPhone);
+                params.put("password", sPassword);
+                params.put("name", sName);
+                params.put("address", sAddress);
+                params.put("phone", sPhone);
                 params.put("pincode", sPinCode);
                 params.put("username", sUsername);
-                params.put("cpassword", sCPassword);
                 params.put("location", sLocation);
+                params.put("lat", sLat);
+                params.put("long", sLong);
+
                 //returning parameters
                 return params;
             }
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
-                headers.put("Authorization",(String) PrefsHelper.getPrefsHelper(getActivity()).getPref(PrefsHelper.PREF_TOKEN));
+                headers.put("Authorization", (String) PrefsHelper.getPrefsHelper(getActivity()).getPref(PrefsHelper.PREF_TOKEN));
                 return headers;
             }
         };
@@ -215,9 +259,8 @@ public class MyProfileFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
 
-    public void requestUser(String uri)
-    {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, uri,
+    public void requestUser(String uri) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, uri,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -231,6 +274,7 @@ public class MyProfileFragment extends Fragment {
                         username.setText(userDetails.getUsername());
                         password.setText(userDetails.getPassword());
                         cPassword.setText(userDetails.getPassword());
+                        progressDialog.dismiss();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -240,12 +284,12 @@ public class MyProfileFragment extends Fragment {
                 startActivity(i);
                 getActivity().finish();
             }
-        }){
+        }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
-                headers.put("Authorization",(String) PrefsHelper.getPrefsHelper(getActivity()).getPref(PrefsHelper.PREF_TOKEN));
+                headers.put("Authorization", (String) PrefsHelper.getPrefsHelper(getActivity()).getPref(PrefsHelper.PREF_TOKEN));
                 return headers;
             }
         };
@@ -255,16 +299,14 @@ public class MyProfileFragment extends Fragment {
         requestQueue.add(stringRequest);
 
 
-
     }
-    public  boolean isOnline(){
+
+    public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if(netInfo!=null && netInfo.isConnectedOrConnecting()){
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
 

@@ -50,8 +50,7 @@ public class SearchFragment extends Fragment {
     Button searchButton;
     String searchText = "", sLat="", sLong="";
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    @Override    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);

@@ -1,4 +1,4 @@
-package com.solipsism.seekpick;
+package com.solipsism.seekpick.Search;
 
 import android.content.Intent;
 import android.os.Build;
@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.solipsism.seekpick.Login.LoginActivity;
+import com.solipsism.seekpick.R;
 
 public class SearchActivity extends AppCompatActivity {
 
