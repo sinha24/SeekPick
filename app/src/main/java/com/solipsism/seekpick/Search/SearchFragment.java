@@ -34,6 +34,7 @@ import com.solipsism.seekpick.Login.LoginActivity;
 import com.solipsism.seekpick.R;
 
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,6 +50,7 @@ public class SearchFragment extends Fragment {
     EditText searchView;
     Button searchButton;
     String searchText = "", sLat="", sLong="";
+    List<ListItem> dataList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +63,7 @@ public class SearchFragment extends Fragment {
         searchButton = (Button) rootView.findViewById(R.id.search_btn);
         searchView.requestFocus();
 
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        /*LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -125,7 +127,7 @@ public class SearchFragment extends Fragment {
                 }
             });
         }
-        Log.e("search ", "NWd");
+        Log.e("search ", "NWd");*/
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +146,7 @@ public class SearchFragment extends Fragment {
                         Intent i = new Intent(getActivity(), SearchResultActivity.class);
                         i.putExtra("response","");
                         startActivity(i);
+                        Log.e("search start",1+"");
                         search(urlQuery);
                     }
                 } else {
@@ -166,6 +169,7 @@ public class SearchFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        dataList=searchJsonParser.parsefeed(response);
                         Intent i = new Intent(getActivity(), SearchResultActivity.class);
                         i.putExtra("response",response);
                         startActivity(i);
@@ -181,9 +185,9 @@ public class SearchFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new Hashtable<>();
-                params.put("lat", sLat);
-                params.put("long", sLong);
-                params.put("range", "50");
+                params.put("lat", "-2.5496");
+                params.put("long", "48.5971");
+                params.put("range", "1");
 
                 //returning parameters
                 return params;
