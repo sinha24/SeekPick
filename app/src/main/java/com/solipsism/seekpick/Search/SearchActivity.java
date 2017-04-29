@@ -1,11 +1,6 @@
 package com.solipsism.seekpick.Search;
 
 import android.content.Intent;
-<<<<<<<<< Temporary merge branch 1:app/src/main/java/com/solipsism/seekpick/Search/SearchActivity.java
-=========
-import android.graphics.Typeface;
-import android.os.Build;
->>>>>>>>> Temporary merge branch 2:app/src/main/java/com/solipsism/seekpick/SearchActivity.java
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,7 +18,7 @@ public class SearchActivity extends AppCompatActivity {
 
     SearchFragment searchFragment;
     ImageView searchUp;
-    TextView signIn, searchLogo;
+    TextView signIn;
     Animation arrowShake;
 
     @Override
@@ -37,20 +32,11 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         searchFragment = new SearchFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.searchFrame, searchFragment).commit();
+                .add(R.id.content,searchFragment).commit();
 
-<<<<<<<<< Temporary merge branch 1:app/src/main/java/com/solipsism/seekpick/Search/SearchActivity.java
-=========
-        searchView = (EditText) findViewById(R.id.search_text);
-        searchLogo= (TextView) findViewById(R.id.searchlogo);
-        searchButton = (Button) findViewById(R.id.search_btn);
->>>>>>>>> Temporary merge branch 2:app/src/main/java/com/solipsism/seekpick/SearchActivity.java
         searchUp = (ImageView) findViewById(R.id.search_up);
         signIn = (TextView) findViewById(R.id.search_sign_in);
         arrowShake = AnimationUtils.loadAnimation(this, R.anim.arrorw_shake);
-
-        Typeface custom_font = Typeface.createFromAsset(getAssets(), "alex.ttf");
-        searchLogo.setTypeface(custom_font);
 
         searchUp.startAnimation(arrowShake);
 
