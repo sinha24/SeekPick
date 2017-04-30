@@ -43,8 +43,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends Fragment implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class SearchFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
 
     public SearchFragment() {
@@ -55,6 +54,7 @@ public class SearchFragment extends Fragment implements
     Button searchButton;
     String searchText = "", sLat = "", sLong = "";
     GoogleApiClient mGoogleApiClient;
+    GPSTracker gps;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,13 +65,16 @@ public class SearchFragment extends Fragment implements
         searchView = (EditText) rootView.findViewById(R.id.search_text);
         searchButton = (Button) rootView.findViewById(R.id.search_btn);
         searchView.requestFocus();
-        GPSTracker gps = new GPSTracker(getActivity()) {
+
+        //GPSTracker Service
+        gps = new GPSTracker(getActivity()) {
             @Nullable
             @Override
             public IBinder onBind(Intent intent) {
                 return null;
             }
         };
+
 
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -84,7 +87,6 @@ public class SearchFragment extends Fragment implements
             // for ActivityCompat#requestPermissions for more details.
             return rootView;
         }
-
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -108,7 +110,6 @@ public class SearchFragment extends Fragment implements
 
             }
         });
-
         if (sLat.isEmpty() && sLong.isEmpty()) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
                 @Override
@@ -144,20 +145,25 @@ public class SearchFragment extends Fragment implements
                     .build();
         }
 
-// check if GPS enabled
+        // check if GPS enabled
         if (gps.canGetLocation()) {
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
+            sLat = String.valueOf(latitude);
+            sLong = String.valueOf(longitude);
         } else {
-// can't get location
-// GPS or Network is not enabled
-// Ask user to enable GPS/network in settings
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
             gps.showSettingsAlert();
         }
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Location location = gps.getLocation();
+                sLat = String.valueOf(location.getLatitude());
+                sLong = String.valueOf(location.getLongitude());
                 searchText = String.valueOf(searchView.getText());
                 Log.e("search", "click " + searchText);
                 if (searchText.length() > 0) {
@@ -203,7 +209,8 @@ public class SearchFragment extends Fragment implements
                     public void onResponse(String response) {
                         Intent i = new Intent(getActivity(), SearchResultActivity.class);
                         i.putExtra("response", response);
-                        Log.e("response",response);
+                        Log.e("response", response);
+                        gps.stopUsingGPS();
                         startActivity(i);
                     }
                 }, new Response.ErrorListener() {

@@ -18,6 +18,7 @@ public class DashActivity extends AppCompatActivity {
     AddProductFragment addProductFragment;
     SearchFragment searchFragment;
     MyProductsFragment myProductsFragment;
+    MyProfileFragment myProfileFragment;
 
 
     @Override
@@ -27,6 +28,7 @@ public class DashActivity extends AppCompatActivity {
         addProductFragment = new AddProductFragment();
         searchFragment = new SearchFragment();
         myProductsFragment = new MyProductsFragment();
+        myProfileFragment = new MyProfileFragment();
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, searchFragment).commit();
@@ -42,17 +44,21 @@ public class DashActivity extends AppCompatActivity {
 
             private void handleBottomNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.navigation_home:
+                    case R.id.navigation_search:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.content, searchFragment).commit();
                         break;
-                    case R.id.navigation_dashboard:
+                    case R.id.navigation_add_product:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.content, addProductFragment).commit();
                         break;
-                    case R.id.navigation_notifications:
+                    case R.id.navigation_my_product:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.content, myProductsFragment).commit();
+                        break;
+                    case R.id.navigation_my_profile:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.content, myProfileFragment).commit();
                         break;
                 }
             }

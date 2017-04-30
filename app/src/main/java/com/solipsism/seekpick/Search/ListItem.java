@@ -1,24 +1,56 @@
 package com.solipsism.seekpick.Search;
 
-/**
- * Created by Shubham on 17-04-2017.
- */
-
 public class ListItem {
 
 
-    String id, address, name, pincode, phone, lat, lng;
+    String oid;
+    String name;
+    String price;
+    String shopid;
 
-    public String getId() {
-        return id;
+    public String getShopid() {
+        return shopid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setShopid(String shopid) {
+        this.shopid = shopid;
     }
+
+    String shopname;
+    String address;
+    String pincode;
+    String phone;
+    String lat;
+    String lng;
+
+
 
     public String getAddress() {
         return address;
+    }
+
+    public String getShopname() {
+        return shopname;
+    }
+
+    public void setShopname(String shopname) {
+        this.shopname = shopname;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getOid() {
+        return oid;
+    }
+
+    public void setOid(String oid) {
+        this.oid = oid;
     }
 
     public void setAddress(String address) {
