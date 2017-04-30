@@ -43,7 +43,6 @@ public class AddProductFragment extends Fragment {
     }
 
     final String ADD_URL = "https://seekpick.herokuapp.com/item/add";
-    String KEY_ITEMNAME = "itemname", KEY_ITEMPRICE = "itemprice", KEY_TAGS = "tags";
     String itemName, itemPrice, itemTags;
     EditText mItemName, mItemPrice, mTags;
     Button mUpload;
@@ -140,9 +139,9 @@ public class AddProductFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("itemname", KEY_ITEMNAME);
-                params.put("itemprice", KEY_ITEMPRICE);
-                params.put("tags", KEY_TAGS);
+                params.put("itemname", itemName);
+                params.put("itemprice", itemPrice);
+                params.put("tags", itemTags);
                 return params;
             }
 

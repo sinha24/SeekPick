@@ -214,6 +214,7 @@ public class MyProfileFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getActivity(), "Login Again ", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
+                progressDialog.dismiss();
                 startActivity(i);
                 getActivity().finish();
             }

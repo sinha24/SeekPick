@@ -152,13 +152,14 @@ public class SignUpActivity extends AppCompatActivity {
                 LatLng latLng = place.getLatLng();
                 sLat = String.valueOf(latLng.latitude);
                 sLong = String.valueOf(latLng.longitude);
-                sLocation = String.format("Place: %s", place.getName());
+                sLocation = String.format("%s", place.getAddress());
+                sAddress = sLocation;
+                address.setText(sAddress);
                 Toast.makeText(this, sLocation, Toast.LENGTH_LONG).show();
                 location.setBackgroundColor(Color.parseColor("#00aa00"));
             }
         }
     }
-
 
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
