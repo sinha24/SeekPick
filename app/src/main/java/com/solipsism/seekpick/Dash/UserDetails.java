@@ -1,8 +1,5 @@
 package com.solipsism.seekpick.Dash;
 
-/**
- * Created by SHIVANI on 22-04-2017.
- */
 
 public class UserDetails {
     private String id;

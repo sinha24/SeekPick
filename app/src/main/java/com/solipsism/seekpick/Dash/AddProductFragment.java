@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,94 +32,80 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.solipsism.seekpick.R.id.container;
-import static com.solipsism.seekpick.R.id.itemname;
-import static com.solipsism.seekpick.R.id.itemprice;
-import static com.solipsism.seekpick.R.id.tags;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AddProductFragment extends Fragment {
-    public static final String ADD_URL = "https://seekpick.herokuapp.com/item/add";
-    public static String KEY_ITEMNAME = "itemname";
-    public static String KEY_ITEMPRICE = "itemprice";
-    public static String KEY_TAGS = "tags";
-String itemname2,itemprice2,tags2;
-    private EditText mItemName;
-    private EditText mItemPrice;
-    private EditText mTags;
-    private Button mUpload;
-    private Fragment mAddFragment;
 
     public AddProductFragment() {
         // Required empty public constructor
     }
 
+    final String ADD_URL = "https://seekpick.herokuapp.com/item/add";
+    String itemName, itemPrice, itemTags;
+    EditText mItemName, mItemPrice, mTags;
+    Button mUpload;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add, container, false);
-        mItemName = (EditText) view.findViewById(itemname);
-        mItemPrice = (EditText) view.findViewById(R.id.itemprice);
-        mTags = (EditText) view.findViewById(R.id.tags);
-        mAddFragment = new Fragment();
-        mUpload = (Button) view.findViewById(R.id.upload);
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_add_product, container, false);
+
+        mItemName = (EditText) rootView.findViewById(R.id.item_name);
+        mItemPrice = (EditText) rootView.findViewById(R.id.item_price);
+        mTags = (EditText) rootView.findViewById(R.id.tags);
+        mUpload = (Button) rootView.findViewById(R.id.upload);
 
         mUpload.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View view) {
-                 itemname2=mItemName.getText().toString().trim();
-                itemprice2=mItemPrice.getText().toString();
-                tags2=mTags.getText().toString();
+                                       public void onClick(View view) {
+                                           itemName = mItemName.getText().toString();
+                                           itemPrice = mItemPrice.getText().toString();
+                                           itemTags = mTags.getText().toString();
 
-                if (isonline()) {
+                                           if (isOnline()) {
+                                               if (itemName.length()>0) {
+                                                   if (itemPrice.length()>0) {
+                                                       if (itemTags.length()>0) {
+                                                           try {
+                                                               UploadAdd();
+                                                           } catch (JSONException e) {
+                                                               e.printStackTrace();
+                                                           }
+                                                       } else {
+                                                           mTags.requestFocus();
+                                                           mTags.setError("please enter at least one tag");
+                                                       }
+                                                   } else {
+                                                       mItemPrice.requestFocus();
+                                                       mItemPrice.setError("please enter product price");
+                                                   }
+                                               } else {
+                                                   mItemName.requestFocus();
+                                                   mItemName.setError("please enter product name");
+                                               }
+                                           }
+                                       }
+                                   }
+        );
 
-                    if (itemname > 0) {
-                        if (itemprice > 0) {
-                            if (tags > 0) {
-                            } else {
-                                mTags.requestFocus();
-                                mTags.setError("please enter one word description");
-                            }
-                        } else {
-                            mItemPrice.requestFocus();
-                            mItemPrice.setError("please enter product proce");
-                        }
-                    } else {
-                        mItemName.requestFocus();
-                        mItemName.setError("please enter product name");
-                    }
-
-                }
-
-                try {
-                    UploadAdd();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                // mUpload.setOnClickListener(this);
-                Toast.makeText(getActivity(),"Uploaded",Toast.LENGTH_LONG).show();
-            }
-        }
-
-    );
+        return rootView;
+    }
 
 
-    // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_add,container,false);
-
-}
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
 
 
     private void UploadAdd() throws JSONException {
-         itemname2 = mItemName.getText().toString().trim();
-         itemprice2 = mItemPrice.getText().toString().trim();
-         tags2 = mTags.getText().toString().trim();
-
-
+        itemName = mItemName.getText().toString().trim();
+        itemPrice = mItemPrice.getText().toString().trim();
+        itemTags = mTags.getText().toString().trim();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, ADD_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -140,7 +125,6 @@ String itemname2,itemprice2,tags2;
                         } else {
                             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                         }
-
                     }
                 },
                 new Response.ErrorListener() {
@@ -149,16 +133,15 @@ String itemname2,itemprice2,tags2;
                         Toast.makeText(getActivity(), "Login again", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getActivity(), LoginActivity.class);
                         startActivity(i);
-
                     }
                 }) {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("itemname", KEY_ITEMNAME);
-                params.put("itemprice", KEY_ITEMPRICE);
-                params.put("tags", KEY_TAGS);
+                Map<String, String> params = new HashMap<>();
+                params.put("itemname", itemName);
+                params.put("itemprice", itemPrice);
+                params.put("tags", itemTags);
                 return params;
             }
 
@@ -168,38 +151,18 @@ String itemname2,itemprice2,tags2;
                 headers.put("Authorization", (String) PrefsHelper.getPrefsHelper(getActivity()).getPref(PrefsHelper.PREF_TOKEN));
                 return headers;
             }
-
-
         };
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        Log.e("Request added for add", " ");
         //Adding request to the queue
         requestQueue.add(stringRequest);
-
     }
-
-
-    public boolean isonline() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-            return false;
-        }
-
-
-    }
-
 
     public void AfterResponse() {
-        getFragmentManager().beginTransaction()
-                .replace(R.id.content, mAddFragment)
-                .commit();
+        mItemName.setText("");
+        mItemPrice.setText("");
+        mTags.setText("");
     }
-
-
 }

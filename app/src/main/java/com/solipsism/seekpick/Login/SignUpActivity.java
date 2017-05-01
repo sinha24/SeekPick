@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -105,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                 if (sPassword.length() > 5) {
                                                     if (sCPassword.equals(sPassword)) {
                                                         progressDialog = new ProgressDialog(SignUpActivity.this);
-                                                        progressDialog.setTitle("Signing in..");
+                                                        progressDialog.setTitle("Registering..");
                                                         progressDialog.setCancelable(false);
                                                         progressDialog.show();
                                                         SignUp("https://seekpick.herokuapp.com/register");
@@ -145,7 +144,7 @@ public class SignUpActivity extends AppCompatActivity {
                         email.setError("Please enter email id");
                     }
                 } else {
-                    Toast.makeText(SignUpActivity.this, "Network isnt avialable", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUpActivity.this, "Network isn't available", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -158,13 +157,14 @@ public class SignUpActivity extends AppCompatActivity {
                 LatLng latLng = place.getLatLng();
                 sLat = String.valueOf(latLng.latitude);
                 sLong = String.valueOf(latLng.longitude);
-                sLocation = String.format("Place: %s", place.getName());
+                sLocation = String.format("%s", place.getAddress());
+                sAddress = sLocation;
+                address.setText(sAddress);
                 Toast.makeText(this, sLocation, Toast.LENGTH_LONG).show();
                 location.setBackgroundColor(Color.parseColor("#00aa00"));
             }
         }
     }
-
 
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

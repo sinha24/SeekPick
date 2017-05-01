@@ -1,9 +1,5 @@
 package com.solipsism.seekpick.Search;
 
-/**
- * Created by Shubham on 17-04-2017.
- */
-
 public class ListItem {
 
 
@@ -22,6 +18,7 @@ public class ListItem {
 
     String shopname;
     String address;
+    String pincode;
     String phone;
     String lat;
     String lng;
@@ -68,6 +65,13 @@ public class ListItem {
         this.name = name;
     }
 
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
 
     public String getPhone() {
         return phone;
