@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,7 +16,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/raviblur">
+        android:background="#fff">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -32,15 +31,6 @@
                 android:orientation="vertical"
                 android:padding="16sp">
 
-                <TextView
-                    android:id="@+id/signuplogo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="SeekPick"
-                    android:textSize="50dp"
-                    android:textStyle="bold"/>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -93,13 +83,13 @@
                         android:layout_weight="7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                    <AutoCompleteTextView
-                        android:id="@+id/signup_pincode"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="PIN CODE"
-                        android:inputType="number"
-                        android:maxLength="6" />
+                        <AutoCompleteTextView
+                            android:id="@+id/signup_pincode"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="PIN CODE"
+                            android:inputType="number"
+                            android:maxLength="6" />
                     </android.support.design.widget.TextInputLayout>
 
                     <ImageButton
@@ -167,12 +157,10 @@
 
                 <Button
                     android:id="@+id/signup_button"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sign up"
-                    android:textSize="20dp"
-                    android:background="@drawable/button_border"
-                    />
+                    android:textSize="20sp" />
 
             </LinearLayout>
         </ScrollView>

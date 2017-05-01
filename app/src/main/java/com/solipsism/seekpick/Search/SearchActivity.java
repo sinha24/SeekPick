@@ -32,7 +32,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         searchFragment = new SearchFragment();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.content,searchFragment).commit();
+                .replace(R.id.searchFrame, searchFragment).commit();
 
         searchUp = (ImageView) findViewById(R.id.search_up);
         signIn = (TextView) findViewById(R.id.search_sign_in);

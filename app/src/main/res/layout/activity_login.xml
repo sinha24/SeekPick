@@ -16,30 +16,21 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/raviblur">
+        android:background="#fff">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true">
 
             <LinearLayout
                 android:id="@+id/email_login_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="9sp">
 
-                <TextView
-                    android:id="@+id/loginlogo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="SeekPick"
-                    android:textSize="50dp"
-                    android:textStyle="bold"/>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -71,59 +62,10 @@
 
                 <Button
                     android:id="@+id/login_button"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:text="Sign in"
-                    android:textSize="20dp"
-                    android:background="@drawable/button_border"/>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/social_accnt"
-                    android:textSize="20dp" />
-
-                <LinearLayout
-                    android:layout_margin="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/fblogo"
-                        android:background="@null" />
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:src="@drawable/gplus"/>
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-
-
-                </LinearLayout>
+                    android:textSize="20sp" />
 
             </LinearLayout>
         </ScrollView>
@@ -139,15 +81,14 @@
                 android:id="@+id/login_sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="First time here?, SIGN UP"
-                android:textAlignment="center"
-                android:textSize="20dp" />
+                android:text="First time here, SIGN UP"
+                android:textAlignment="center" />
 
             <ImageView
                 android:id="@+id/login_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/up_arrow" />
+                android:src="@drawable/ic_up_arrow" />
         </LinearLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -61,7 +61,7 @@ public class ListAdapter extends BaseAdapter {
         System.out.println("Position [" + position + "]");
         ListItem p = items.get(position);
         holder.name.setText(""+p.getName());
-        holder.address.setText("" + p.getAddress()+" - "+"\n"+p.getPhone());
+        holder.address.setText("" + p.getAddress()+" - "+p.getPincode()+"\n"+p.getPhone());
         return v;
     }
 

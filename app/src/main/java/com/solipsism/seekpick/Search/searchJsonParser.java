@@ -9,11 +9,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ravi joshi on 4/23/2017.
- */
 
-public class searchJsonParser {
+public class SearchJsonParser {
     public  static List<ListItem> parsefeed(String content){
         try{
             JSONArray ar =new JSONArray(content);
