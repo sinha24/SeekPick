@@ -28,7 +28,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.solipsism.seekpick.R;
 
+import java.io.Serializable;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,7 +42,7 @@ public class SearchFragment extends Fragment {
     public SearchFragment() {
         // Required empty public constructor
     }
-
+    List<ListItem> datalist;
     EditText searchView;
     Button searchButton;
     String searchText = "", sLat = "", sLong = "";
@@ -122,8 +124,9 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         Intent i = new Intent(getActivity(), SearchResultActivity.class);
+                        datalist= SearchJsonParser.parsefeed(response);
                         i.putExtra("response", response);
-                        Log.e("response", response);
+                        i.putExtra("itemList",(Serializable)datalist);
                         gps.stopUsingGPS();
                         startActivity(i);
                     }

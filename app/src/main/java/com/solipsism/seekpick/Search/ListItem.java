@@ -1,6 +1,8 @@
 package com.solipsism.seekpick.Search;
 
-public class ListItem {
+import java.io.Serializable;
+
+public class ListItem implements Serializable {
 
 
     String oid;
