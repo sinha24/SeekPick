@@ -22,8 +22,8 @@ public class ListItem implements Serializable {
     String address;
     String pincode;
     String phone;
-    String lat;
-    String lng;
+    double lat;
+    double lng;
 
 
 
@@ -83,19 +83,19 @@ public class ListItem implements Serializable {
         this.phone = phone;
     }
 
-    public String getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public String getLng() {
-        return lng;
+    public double getLng() {
+        return  lng;
     }
 
-    public void setLng(String lng) {
+    public void setLng(double lng) {
         this.lng = lng;
     }
 }

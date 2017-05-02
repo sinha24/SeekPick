@@ -123,7 +123,7 @@ public class SearchFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Intent i = new Intent(getActivity(), SearchResultActivity.class);
+                        Intent i = new Intent(getActivity(), MapsActivity.class);
                         datalist= SearchJsonParser.parsefeed(response);
                         i.putExtra("response", response);
                         i.putExtra("itemList",(Serializable)datalist);
