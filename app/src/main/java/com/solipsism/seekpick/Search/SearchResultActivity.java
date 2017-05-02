@@ -27,26 +27,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.result_list);
         searchText = (TextView) findViewById(R.id.result_text);
-        items = new ArrayList<>();
-
-        searchText.setText(response);
-        ListItem item1 = new ListItem();
-        item1.setName("KKK");
-        item1.setAddress("adfasdfa");
-        ListItem item2 = new ListItem();
-        item1.setName("lll");
-        item1.setAddress("afEvsdzgv");
-        ListItem item3 = new ListItem();
-        item1.setName("mmm");
-        item1.setAddress("sevd");
-        ListItem item4 = new ListItem();
-        item1.setName("hhh");
-        item1.setAddress("adfassdzvdfa");
-        items.add(item1);
-        items.add(item2);
-        items.add(item3);
-        items.add(item4);
-
+        items =(ArrayList<ListItem>) intent.getSerializableExtra("itemList");
         listAdapter = new ListAdapter(SearchResultActivity.this, items);
         listView.setAdapter(listAdapter);
     }

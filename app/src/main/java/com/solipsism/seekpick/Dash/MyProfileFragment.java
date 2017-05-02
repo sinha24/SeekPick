@@ -57,7 +57,7 @@ public class MyProfileFragment extends Fragment {
     Button saveChanges;
     ImageButton location;
     UserDetails userDetails;
-    String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation, sLat, sLong;
+    String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation="", sLat, sLong;
     int PLACE_PICKER_REQUEST = 1;
 
     @Override

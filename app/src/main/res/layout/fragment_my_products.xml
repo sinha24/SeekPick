@@ -4,17 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="com.solipsism.seekpick.Dash.MyProductsFragment">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Your Products"
-        android:textAlignment="center"
-        android:textSize="30sp" />
+    tools:context="com.solipsism.seekpick.Dash.MyProductsFragment"
+    android:weightSum="1">
 
     <ListView
-        android:id="@+id/List_view"
+        android:numColumns="2"
+        android:gravity="center"
+        android:columnWidth="100dp"
+        android:stretchMode="columnWidth"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="476dp"
+        android:id="@+id/List_view"
+        android:layout_weight="0.68" />
+
 </LinearLayout>
