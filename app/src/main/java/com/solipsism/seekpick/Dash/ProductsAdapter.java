@@ -1,10 +1,13 @@
 package com.solipsism.seekpick.Dash;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Parcelable;
 import android.util.Log;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,6 +50,7 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
     Product product, product2;
     int pos;
     public ListView listview;
+    MyProductsFragment myProductsFragment;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     public ProductsAdapter(Context context, int resource, List<Product> objects) {
@@ -61,12 +66,14 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
         View view = inflater.inflate(R.layout.products_form, parent, false);
 
         MyViewHolder viewHolder = new MyViewHolder();
+        product = dataList.get(position);
         listview = (ListView) view.findViewById(R.id.List_view);
         viewHolder.mProName = (TextView) view.findViewById(R.id.name1);
         viewHolder.mProprice = (TextView) view.findViewById(R.id.price1);
         viewHolder.delete = (Button) view.findViewById(R.id.delete_product);
         viewHolder.mProTags = (TextView) view.findViewById(R.id.tag1);
         viewHolder.edit = (Button) view.findViewById(R.id.edit_product);
+
         viewHolder.mProName.setText(product.getProName());
         viewHolder.mProprice.setText(product.getProPrice());
         viewHolder.mProTags.setText(product.getProTags());
@@ -77,7 +84,7 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
                 if(isonline()){
                     pos = position;
                     product2 = dataList.get(pos);
-                    Intent intent =new Intent(context,AddProductFragment.class);
+                    Intent intent =new Intent(context,DashActivity.class);
                     //intent.putExtra("obj", (Parcelable) product2);
                     //intent.putExtra("value",8);
                     context.startActivity(intent);
@@ -92,10 +99,16 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
                 if (isonline()) {
                     Log.e("Requesting the  port", " ");
                     pos = position;
-                    requestDelete("https://seekpick.herokuapp.com/item/delete");
-
-
-
+                    product2 = dataList.get(pos);
+                    Uri.Builder builder = new Uri.Builder();
+                    builder.scheme("https")
+                            .authority("seekpick.herokuapp.com")
+                            .appendPath("item")
+                            .appendPath("delete")
+                            .appendQueryParameter("id",product2.get_id());
+                    String urlQuery = builder.build().toString();
+                    Log.e("url for delete:-- ", urlQuery);
+                    requestDelete(urlQuery);
                 } else {
                     Toast.makeText(context, "Network isnt available ", Toast.LENGTH_SHORT).show();
                 }
@@ -122,6 +135,7 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
                     public void onResponse(String response) {
                         String success = "";
                         String message = "";
+                        Log.e("After delete:-- ",response);
                         try {
                             JSONObject obje = new JSONObject(response);
                             success = obje.getString("success");
@@ -143,24 +157,14 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context,"Login again ", Toast.LENGTH_SHORT).show();
+                Log.e("Error on delete:-- ,",error+"");
+               /* Toast.makeText(context,"Login again ", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(context, LoginActivity.class);
-                context.startActivity(i);
+                context.startActivity(i);*/
 
             }
         }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
 
-                Map<String, String> params = new Hashtable<String, String>();
-                product2 = dataList.get(pos);
-
-                params.put("_id", product2.get_id());
-
-
-                //returning parameters
-                return params;
-            }
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
@@ -168,6 +172,8 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
                 return headers;
             }
         };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         //Adding request to the queue
@@ -188,8 +194,10 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
 
     }
     public void afterres() {
-        Intent i = new Intent(context, DashActivity.class);
-        context.startActivity(i);
+        /*Intent i = new Intent(context, DashActivity.class);
+        context.startActivity(i);*/
+        myProductsFragment =new MyProductsFragment();
+        ((DashActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.content, myProductsFragment).commit();
 
     }
 

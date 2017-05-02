@@ -38,8 +38,8 @@ public class SearchJsonParser {
                 Log.e("location ",i+1+":- "+newItem.getAddress());
                 JSONObject objects=arrObject.getJSONObject("loc");
                 JSONArray obj2= objects.getJSONArray("coordinates");
-                newItem.setLat(obj2.getString(0));
-                newItem.setLng(obj2.getString(1));
+                newItem.setLat(obj2.getDouble(0));
+                newItem.setLng(obj2.getDouble(1));
                 Log.e("lat ",i+1+":- "+newItem.getLat());
                 Log.e("long ",i+1+":- "+newItem.getLng());
                 dataList.add(newItem);

@@ -87,6 +87,7 @@ public class MyProductsFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         if(response.length()>2) {
+                            Log.e("response of items ",response);
                             dataList = ProductsJsonParser.parsefeed(response);
                             progress.dismiss();
                             ProductsAdapter adapter = new ProductsAdapter(getActivity(), R.layout.products_form, dataList);
