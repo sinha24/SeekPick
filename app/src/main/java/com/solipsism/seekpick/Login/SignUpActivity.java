@@ -39,7 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
     AutoCompleteTextView email, name, address, pinCode, phone, username, password, cPassword;
     Button signUp;
     ImageButton location;
-    String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation, sLat, sLong;
+    String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation="", sLat, sLong;
     ProgressDialog progressDialog;
     int PLACE_PICKER_REQUEST = 1;
 

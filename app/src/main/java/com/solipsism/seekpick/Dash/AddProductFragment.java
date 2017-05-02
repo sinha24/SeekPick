@@ -46,6 +46,8 @@ public class AddProductFragment extends Fragment {
     String itemName, itemPrice, itemTags;
     EditText mItemName, mItemPrice, mTags;
     Button mUpload;
+    int val;
+    Product obj;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,6 +95,7 @@ public class AddProductFragment extends Fragment {
 
         return rootView;
     }
+
 
 
     public boolean isOnline() {
