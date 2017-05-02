@@ -83,13 +83,13 @@
                         android:layout_weight="7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                    <AutoCompleteTextView
-                        android:id="@+id/signup_pincode"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="PIN CODE"
-                        android:inputType="number"
-                        android:maxLength="6" />
+                        <AutoCompleteTextView
+                            android:id="@+id/signup_pincode"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="PIN CODE"
+                            android:inputType="number"
+                            android:maxLength="6" />
                     </android.support.design.widget.TextInputLayout>
 
                     <ImageButton
