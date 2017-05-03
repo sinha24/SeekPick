@@ -7,12 +7,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.solipsism.seekpick.R;
 
@@ -22,6 +24,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     ArrayList<ListItem> items;
+    ArrayList<String> markerTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Intent intent = getIntent();
-        items = (ArrayList<ListItem>) intent.getSerializableExtra("itemList");
+        try {
+            items = (ArrayList<ListItem>) intent.getSerializableExtra("itemList");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Log.e("No.of items,", items.size() + "");
         mMap = googleMap;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -60,18 +67,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
         mMap.setMyLocationEnabled(true);
-        for(int i=0 ; i<items.size();i++) {
+        for (int i = 0; i < items.size(); i++) {
             mMap = googleMap;
             ListItem p = items.get(i);
-            String name=p.getName();
-            String shopname=p.getShopname();
-            double  lat=p.getLat();
-            double  lng=p.getLng();
+            String name = p.getName();
+            String shopname = p.getShopname();
+            double lat = p.getLat();
+            double lng = p.getLng();
             // Add a marker in Sydney and move the camera
             LatLng newPlace = new LatLng(lat, lng);
             float zoomLevel = (float) 14.0;
-            mMap.addMarker(new MarkerOptions().position(newPlace).title(name+" at "+shopname));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPlace,zoomLevel));
+            String markerTitle = name + " at " + shopname;
+            markerTitles.add(i, markerTitle);
+            mMap.addMarker(new MarkerOptions().position(newPlace).title(markerTitle));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPlace, zoomLevel));
         }
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker arg0) {
+                ListItem resultItem = items.get(markerTitles.indexOf(arg0.getTitle()));
+                Toast.makeText(MapsActivity.this,resultItem.getName()+resultItem.getShopname(),Toast.LENGTH_LONG).show();
+                return true;
+            }
+
+        });
+
     }
 }
