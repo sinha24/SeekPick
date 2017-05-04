@@ -3,10 +3,15 @@ package com.solipsism.seekpick.Search;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,14 +27,19 @@ import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    GoogleMap mMap;
     ArrayList<ListItem> items;
     ArrayList<String> markerTitles;
+
+    static ListItem resultItem;
+    BottomSheetDialogFragment bottomSheetDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        markerTitles = new ArrayList<>();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -76,22 +86,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             double lng = p.getLng();
             // Add a marker in Sydney and move the camera
             LatLng newPlace = new LatLng(lat, lng);
-            float zoomLevel = (float) 14.0;
+            float zoomLevel = (float) 11.0;
             String markerTitle = name + " at " + shopname;
+            Log.e("marker", markerTitle);
             markerTitles.add(i, markerTitle);
             mMap.addMarker(new MarkerOptions().position(newPlace).title(markerTitle));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPlace, zoomLevel));
         }
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
             @Override
-            public boolean onMarkerClick(Marker arg0) {
-                ListItem resultItem = items.get(markerTitles.indexOf(arg0.getTitle()));
-                Toast.makeText(MapsActivity.this,resultItem.getName()+resultItem.getShopname(),Toast.LENGTH_LONG).show();
-                return true;
+            public void onInfoWindowClick(Marker arg0) {
+                resultItem = items.get(markerTitles.indexOf(arg0.getTitle()));
+                bottomSheetDialogFragment = new CustomBottomSheetDialogFragment();
+                bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
             }
 
         });
-
     }
 }

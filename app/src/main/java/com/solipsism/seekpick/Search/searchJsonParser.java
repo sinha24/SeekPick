@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SearchJsonParser {
+class SearchJsonParser {
     public  static List<ListItem> parsefeed(String content){
         try{
             JSONArray ar =new JSONArray(content);
@@ -32,6 +32,7 @@ public class SearchJsonParser {
                 newItem.setShopname(arrObject.getString("name"));
                 newItem.setPhone(arrObject.getString("phone"));
                 newItem.setAddress(arrObject.getString("location"));
+                newItem.setPincode(arrObject.getString("pincode"));
                 Log.e("shopid ",i+1+":- "+newItem.getShopid());
                 Log.e("shopname ",i+1+":- "+newItem.getShopname());
                 Log.e("phone ",i+1+":- "+newItem.getPhone());
