@@ -128,10 +128,7 @@ public class EditProductActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(EditProductActivity.this, message, Toast.LENGTH_LONG).show();
                         }
-
                     }
-
-
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -154,17 +151,19 @@ public class EditProductActivity extends AppCompatActivity {
                 return headers;
             }
         };
-
         RequestQueue requestQueue = Volley.newRequestQueue(EditProductActivity.this);
         requestQueue.add(stringRequest);
-
-
     }
 
     public void afterResponse() {
         Intent intent = new Intent(EditProductActivity.this, DashActivity.class);
+        EditProductActivity.this.finish();
         startActivity(intent);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
 }

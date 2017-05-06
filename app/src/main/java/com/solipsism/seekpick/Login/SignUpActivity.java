@@ -212,8 +212,8 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.dismiss();
         Toast.makeText(SignUpActivity.this, " login to continue ", Toast.LENGTH_LONG).show();
         Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
+        this.finish();
         startActivity(i);
-        finish();
     }
 
     public void SignUp(String uri) {
@@ -247,7 +247,6 @@ public class SignUpActivity extends AppCompatActivity {
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-
                 Map<String, String> params = new Hashtable<>();
                 params.put("name", sName);
                 params.put("email", sEmail);
@@ -258,17 +257,12 @@ public class SignUpActivity extends AppCompatActivity {
                 params.put("password", sPassword);
                 params.put("lat", sLat);
                 params.put("long", sLong);
-
-
                 //returning parameters
                 return params;
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
         //Adding request to the queue
         requestQueue.add(stringRequest);
-
-
     }
 }

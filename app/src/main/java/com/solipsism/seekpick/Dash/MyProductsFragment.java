@@ -99,8 +99,8 @@ public class MyProductsFragment extends Fragment {
                 progress.dismiss();
                 Toast.makeText(getActivity(), " Login Again ", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
-                startActivity(i);
                 getActivity().finish();
+                startActivity(i);
             }
         }){
 

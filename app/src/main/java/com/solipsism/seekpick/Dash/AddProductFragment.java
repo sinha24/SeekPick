@@ -133,6 +133,7 @@ public class AddProductFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getActivity(), "Login again", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getActivity(), LoginActivity.class);
+                        getActivity().finish();
                         startActivity(i);
                     }
                 }) {

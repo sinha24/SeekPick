@@ -2,12 +2,14 @@ package com.solipsism.seekpick.Dash;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.solipsism.seekpick.Login.LoginActivity;
 import com.solipsism.seekpick.R;
@@ -80,10 +82,28 @@ public class DashActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.logout) {
             PrefsHelper.getPrefsHelper(DashActivity.this).savePref(PrefsHelper.PREF_TOKEN, "token");
             Intent i = new Intent(DashActivity.this, LoginActivity.class);
+            this.finish();
             startActivity(i);
-            finish();
         }
         return true;
     }
 
+    boolean exit=false;
+    @Override
+    public void onBackPressed() {
+        if (exit) {
+            System.gc();
+            System.exit(0);
+        } else {
+            Toast.makeText(this, "Press Back again to Exit",
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+        }
+    }
 }

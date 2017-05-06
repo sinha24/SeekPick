@@ -1,6 +1,7 @@
 package com.solipsism.seekpick.Dash;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -77,6 +78,7 @@ class ProductsAdapter extends ArrayAdapter<Product> {
                     Intent intent = new Intent(context, EditProductActivity.class);
                     intent.putExtra("product_object", product2);
                     intent.putExtra("value", 3);
+                    ((Activity)context).finish();
                     context.startActivity(intent);
                 } else {
                     Toast.makeText(context, "Network isnt available ", Toast.LENGTH_SHORT).show();
@@ -140,10 +142,7 @@ class ProductsAdapter extends ArrayAdapter<Product> {
                         } else {
                             Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                         }
-
                     }
-
-
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {

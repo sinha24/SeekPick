@@ -256,8 +256,8 @@ public class MyProfileFragment extends Fragment {
                 Toast.makeText(getActivity(), "Login Again ", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 progressDialog.dismiss();
-                startActivity(i);
                 getActivity().finish();
+                startActivity(i);
             }
         }) {
             @Override
@@ -306,8 +306,8 @@ public class MyProfileFragment extends Fragment {
                 progressDialog.dismiss();
                 Toast.makeText(getActivity(), "Login Again", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
-                startActivity(i);
                 getActivity().finish();
+                startActivity(i);
             }
         }) {
             @Override

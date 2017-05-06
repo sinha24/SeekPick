@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    AutoCompleteTextView email,password;
+    AutoCompleteTextView email, password;
     Button login;
     Login log;
     String sEmail, sPassword;
@@ -103,8 +103,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onGettingResponse() {
         Intent i = new Intent(LoginActivity.this, DashActivity.class);
+        this.finish();
         startActivity(i);
-        finish();
     }
 
 
@@ -114,14 +114,13 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         log = LoginJsonParser.parsefeed(response);
-                        Log.e("Login",log.getSuccess());
+                        Log.e("Login", log.getSuccess());
                         if (log.getSuccess().equals("true")) {
                             PrefsHelper.getPrefsHelper(LoginActivity.this).savePref(PrefsHelper.PREF_TOKEN, log.getToken());
                             onGettingResponse();
                         } else {
                             Toast.makeText(LoginActivity.this, "login failed", Toast.LENGTH_LONG).show();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -141,9 +140,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
         //Adding request to the queue
         requestQueue.add(stringRequest);
-
     }
 }
