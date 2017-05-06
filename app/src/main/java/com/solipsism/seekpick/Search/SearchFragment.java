@@ -3,6 +3,7 @@ package com.solipsism.seekpick.Search;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -42,10 +44,13 @@ public class SearchFragment extends Fragment {
     public SearchFragment() {
         // Required empty public constructor
     }
+
     List<ListItem> datalist;
     EditText searchView;
     Button searchButton;
-    String searchText = "", sLat = "", sLong = "";
+    ImageButton range1, range2, range3;
+    String searchText = "", sLat = "", sLong = "", range = "5";
+    float zoom = (float) 13.0;
     GPSTracker gps;
 
     @Override
@@ -54,10 +59,52 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
+        int[] attrs = new int[]{R.attr.selectableItemBackground};
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs);
+        final int backgroundResource = typedArray.getResourceId(0, 0);
+
         searchView = (EditText) rootView.findViewById(R.id.search_text);
         searchButton = (Button) rootView.findViewById(R.id.search_btn);
+        range1 = (ImageButton) rootView.findViewById(R.id.range1);
+        range2 = (ImageButton) rootView.findViewById(R.id.range2);
+        range3 = (ImageButton) rootView.findViewById(R.id.range3);
         searchView.requestFocus();
 
+
+        range1.setBackground(getResources().getDrawable(R.drawable.border, null));
+        range2.setBackgroundResource(backgroundResource);
+        range3.setBackgroundResource(backgroundResource);
+
+        range1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                range = "5";
+                range1.setBackground(getResources().getDrawable(R.drawable.border, null));
+                range2.setBackgroundResource(backgroundResource);
+                range3.setBackgroundResource(backgroundResource);
+                zoom = (float) 13.0;
+            }
+        });
+        range2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                range = "25";
+                range2.setBackground(getResources().getDrawable(R.drawable.border, null));
+                range1.setBackgroundResource(backgroundResource);
+                range3.setBackgroundResource(backgroundResource);
+                zoom = (float) 11.0;
+            }
+        });
+        range3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                range = "50";
+                range3.setBackground(getResources().getDrawable(R.drawable.border, null));
+                range2.setBackgroundResource(backgroundResource);
+                range1.setBackgroundResource(backgroundResource);
+                zoom = (float) 9.0;
+            }
+        });
         //GPSTracker Service
         gps = new GPSTracker(getActivity()) {
             @Nullable
@@ -124,9 +171,10 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         Intent i = new Intent(getActivity(), MapsActivity.class);
-                        datalist= SearchJsonParser.parsefeed(response);
+                        datalist = SearchJsonParser.parsefeed(response);
                         i.putExtra("response", response);
-                        i.putExtra("itemList",(Serializable)datalist);
+                        i.putExtra("zoom", zoom);
+                        i.putExtra("itemList", (Serializable) datalist);
                         gps.stopUsingGPS();
                         startActivity(i);
                     }
@@ -144,7 +192,7 @@ public class SearchFragment extends Fragment {
                 Log.e("Params", sLat + " " + sLong);
                 params.put("lat", sLat);
                 params.put("long", sLong);
-                params.put("range", "50");
+                params.put("range", range);
 
                 //returning parameters
                 return params;

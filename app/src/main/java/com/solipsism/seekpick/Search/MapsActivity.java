@@ -3,16 +3,11 @@ package com.solipsism.seekpick.Search;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,6 +25,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     GoogleMap mMap;
     ArrayList<ListItem> items;
     ArrayList<String> markerTitles;
+    float zoom;
 
     static ListItem resultItem;
     BottomSheetDialogFragment bottomSheetDialogFragment;
@@ -59,6 +55,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Intent intent = getIntent();
+        zoom = intent.getFloatExtra("zoom",(float)12.0);
+        Log.e("zoom","   "+zoom);
         try {
             items = (ArrayList<ListItem>) intent.getSerializableExtra("itemList");
         } catch (Exception e) {
@@ -86,9 +84,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             double lng = p.getLng();
             // Add a marker in Sydney and move the camera
             LatLng newPlace = new LatLng(lat, lng);
-            float zoomLevel = (float) 11.0;
+            float zoomLevel = zoom;
             String markerTitle = name + " at " + shopname;
-            Log.e("marker", markerTitle);
+            Log.e("zoom", ""+zoom);
             markerTitles.add(i, markerTitle);
             mMap.addMarker(new MarkerOptions().position(newPlace).title(markerTitle));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPlace, zoomLevel));

@@ -12,8 +12,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginBottom="16sp"
+        android:orientation="horizontal"
         android:weightSum="10">
 
         <TextView
@@ -66,6 +66,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="?android:attr/buttonBarButtonStyle"
         android:gravity="center">
 
         <Button
@@ -73,12 +74,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40sp"
+            style="?android:attr/buttonBarButtonStyle"
             android:text="Call" />
 
         <Button
             android:id="@+id/bsPing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="?android:attr/buttonBarButtonStyle"
             android:text="Ping" />
     </LinearLayout>
 </LinearLayout>

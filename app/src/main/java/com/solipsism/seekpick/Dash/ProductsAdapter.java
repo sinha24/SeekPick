@@ -1,22 +1,19 @@
 package com.solipsism.seekpick.Dash;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +25,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.solipsism.seekpick.Login.LoginActivity;
 import com.solipsism.seekpick.R;
 import com.solipsism.seekpick.utils.PrefsHelper;
 
@@ -36,38 +32,32 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by sakshi on 4/30/2017.
- */
 
-public class ProductsAdapter extends ArrayAdapter <Product> {
+class ProductsAdapter extends ArrayAdapter<Product> {
     private Context context;
     private List<Product> dataList;
-    Product product, product2;
-    int pos;
-    public ListView listview;
-    MyProductsFragment myProductsFragment;
+    private Product product2;
+    private int pos;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
-    public ProductsAdapter(Context context, int resource, List<Product> objects) {
+    ProductsAdapter(Context context, int resource, List<Product> objects) {
         super(context, resource, objects);
         this.context = context;
         this.dataList = objects;
     }
 
+    @NonNull
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.products_form, parent, false);
 
         MyViewHolder viewHolder = new MyViewHolder();
-        product = dataList.get(position);
-        listview = (ListView) view.findViewById(R.id.List_view);
+        Product product = dataList.get(position);
         viewHolder.mProName = (TextView) view.findViewById(R.id.name1);
         viewHolder.mProprice = (TextView) view.findViewById(R.id.price1);
         viewHolder.delete = (Button) view.findViewById(R.id.delete_product);
@@ -81,14 +71,14 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
         viewHolder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isonline()){
+                if (isonline()) {
                     pos = position;
                     product2 = dataList.get(pos);
-                    Intent intent =new Intent(context,DashActivity.class);
-                    //intent.putExtra("obj", (Parcelable) product2);
-                    //intent.putExtra("value",8);
+                    Intent intent = new Intent(context, EditProductActivity.class);
+                    intent.putExtra("product_object", product2);
+                    intent.putExtra("value", 3);
                     context.startActivity(intent);
-                }else{
+                } else {
                     Toast.makeText(context, "Network isnt available ", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -105,7 +95,7 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
                             .authority("seekpick.herokuapp.com")
                             .appendPath("item")
                             .appendPath("delete")
-                            .appendQueryParameter("id",product2.get_id());
+                            .appendQueryParameter("id", product2.get_id());
                     String urlQuery = builder.build().toString();
                     Log.e("url for delete:-- ", urlQuery);
                     requestDelete(urlQuery);
@@ -116,11 +106,10 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
         });
 
 
-
         return view;
     }
 
-    static class MyViewHolder {
+    private static class MyViewHolder {
 
         private TextView mProName;
         private TextView mProTags;
@@ -128,14 +117,15 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
         private Button edit, delete;
 
     }
-    public void requestDelete(String uri) {
+
+    private void requestDelete(String uri) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, uri,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         String success = "";
                         String message = "";
-                        Log.e("After delete:-- ",response);
+                        Log.e("After delete:-- ", response);
                         try {
                             JSONObject obje = new JSONObject(response);
                             success = obje.getString("success");
@@ -145,7 +135,7 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
                         }
                         if (success.equals("true")) {
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                            afterres();
+                            afterResponse();
 
                         } else {
                             Toast.makeText(context, message, Toast.LENGTH_LONG).show();
@@ -157,7 +147,7 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error on delete:-- ,",error+"");
+                Log.e("Error on delete:-- ,", error + "");
                /* Toast.makeText(context,"Login again ", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(context, LoginActivity.class);
                 context.startActivity(i);*/
@@ -182,23 +172,17 @@ public class ProductsAdapter extends ArrayAdapter <Product> {
 
     }
 
-    public boolean isonline() {
+    private boolean isonline() {
 
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-            return false;
-        }
+        return netInfo != null && netInfo.isConnectedOrConnecting();
 
     }
-    public void afterres() {
-        /*Intent i = new Intent(context, DashActivity.class);
-        context.startActivity(i);*/
-        myProductsFragment =new MyProductsFragment();
-        ((DashActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.content, myProductsFragment).commit();
 
+    private void afterResponse() {
+        MyProductsFragment myProductsFragment = new MyProductsFragment();
+        ((DashActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.content, myProductsFragment).commit();
     }
 
 }

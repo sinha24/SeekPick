@@ -2,60 +2,52 @@ package com.solipsism.seekpick.Search;
 
 import java.io.Serializable;
 
-public class ListItem implements Serializable {
+class ListItem implements Serializable {
 
 
-    String oid;
-    String name;
-    String price;
-    String shopid;
+    private String oid, name, price, shopid;
 
-    public String getShopid() {
+    String getShopid() {
         return shopid;
     }
 
-    public void setShopid(String shopid) {
+    void setShopid(String shopid) {
         this.shopid = shopid;
     }
 
-    String shopname;
-    String address;
-    String pincode;
-    String phone;
-    double lat;
-    double lng;
+    private String shopname, address, pincode, phone;
+    private double lat, lng;
 
 
-
-    public String getAddress() {
+    String getAddress() {
         return address;
     }
 
-    public String getShopname() {
+    String getShopname() {
         return shopname;
     }
 
-    public void setShopname(String shopname) {
+    void setShopname(String shopname) {
         this.shopname = shopname;
     }
 
-    public String getPrice() {
+    String getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    void setPrice(String price) {
         this.price = price;
     }
 
-    public String getOid() {
+    String getOid() {
         return oid;
     }
 
-    public void setOid(String oid) {
+    void setOid(String oid) {
         this.oid = oid;
     }
 
-    public void setAddress(String address) {
+    void setAddress(String address) {
         this.address = address;
     }
 
@@ -67,11 +59,11 @@ public class ListItem implements Serializable {
         this.name = name;
     }
 
-    public String getPincode() {
+    String getPincode() {
         return pincode;
     }
 
-    public void setPincode(String pincode) {
+    void setPincode(String pincode) {
         this.pincode = pincode;
     }
 
@@ -83,19 +75,19 @@ public class ListItem implements Serializable {
         this.phone = phone;
     }
 
-    public double getLat() {
+    double getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
+    void setLat(double lat) {
         this.lat = lat;
     }
 
-    public double getLng() {
-        return  lng;
+    double getLng() {
+        return lng;
     }
 
-    public void setLng(double lng) {
+    void setLng(double lng) {
         this.lng = lng;
     }
 }

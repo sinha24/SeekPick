@@ -11,12 +11,12 @@ import com.solipsism.seekpick.R;
 
 import java.util.ArrayList;
 
-public class ListAdapter extends BaseAdapter {
+class ListAdapter extends BaseAdapter {
 
-    Context cx;
-    ArrayList<ListItem> items;
+    private Context cx;
+    private ArrayList<ListItem> items;
 
-    public ListAdapter(Context cx, ArrayList<ListItem> items) {
+    ListAdapter(Context cx, ArrayList<ListItem> items) {
         this.cx = cx;
         this.items = items;
     }
@@ -67,6 +67,6 @@ public class ListAdapter extends BaseAdapter {
 
     private static class PlaceHolder {
         public TextView name;
-        public TextView address;
+        TextView address;
     }
 }

@@ -3,13 +3,9 @@ package com.solipsism.seekpick.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-;
-
 public class PrefsHelper {
 
     public static final String PREF_TOKEN = "token";
-
-
 
 
     private final SharedPreferences sharedPreferences;
@@ -20,13 +16,13 @@ public class PrefsHelper {
         return new PrefsHelper(cx);
     }
 
-    public PrefsHelper(Context context) {
+    private PrefsHelper(Context context) {
         String prefsFile = context.getPackageName();
         sharedPreferences = context.getSharedPreferences(prefsFile, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
-    public void delete(String key) {
+    private void delete(String key) {
         if (sharedPreferences.contains(key)) {
             editor.remove(key).commit();
         }
@@ -65,7 +61,4 @@ public class PrefsHelper {
         return returnValue == null ? defValue : returnValue;
     }
 
-    public boolean isPrefExists(String key) {
-        return sharedPreferences.contains(key);
-    }
 }

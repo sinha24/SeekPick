@@ -1,5 +1,6 @@
 package com.solipsism.seekpick.Search;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -11,7 +12,8 @@ import java.util.List;
 
 
 class SearchJsonParser {
-    public  static List<ListItem> parsefeed(String content){
+    @Nullable
+    static List<ListItem> parsefeed(String content){
         try{
             JSONArray ar =new JSONArray(content);
             List<ListItem> dataList = new ArrayList<>();

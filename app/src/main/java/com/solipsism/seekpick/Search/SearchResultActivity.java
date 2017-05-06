@@ -23,7 +23,6 @@ public class SearchResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_result);
 
         Intent intent = getIntent();
-        String response = intent.getStringExtra("response");
 
         listView = (ListView) findViewById(R.id.result_list);
         searchText = (TextView) findViewById(R.id.result_text);

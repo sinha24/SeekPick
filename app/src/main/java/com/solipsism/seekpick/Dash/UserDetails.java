@@ -1,7 +1,7 @@
 package com.solipsism.seekpick.Dash;
 
 
-public class UserDetails {
+class UserDetails {
     private String id;
     private String email;
     private String password;
@@ -19,11 +19,11 @@ public class UserDetails {
         this.id = id;
     }
 
-    public String getEmail() {
+    String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    void setEmail(String email) {
         this.email = email;
     }
 
@@ -31,23 +31,23 @@ public class UserDetails {
         return password;
     }
 
-    public void setPassword(String password) {
+    void setPassword(String password) {
         this.password = password;
     }
 
-    public String getUsername() {
+    String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    void setUsername(String username) {
         this.username = username;
     }
 
-    public String getLocation() {
+    String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    void setLocation(String location) {
         this.location = location;
     }
 
@@ -59,11 +59,11 @@ public class UserDetails {
         this.name = name;
     }
 
-    public String getPincode() {
+    String getPincode() {
         return pincode;
     }
 
-    public void setPincode(String pincode) {
+    void setPincode(String pincode) {
         this.pincode = pincode;
     }
 

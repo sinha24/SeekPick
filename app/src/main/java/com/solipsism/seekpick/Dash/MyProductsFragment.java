@@ -71,13 +71,7 @@ public class MyProductsFragment extends Fragment {
 
         ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if(netInfo!=null && netInfo.isConnectedOrConnecting()){
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return netInfo != null && netInfo.isConnectedOrConnecting();
 
     }
     public void requestData(String uri){

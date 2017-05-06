@@ -9,6 +9,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +41,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -169,6 +172,44 @@ public class MyProfileFragment extends Fragment {
             }
 
         });
+
+        cPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sPassword = password.getText().toString();
+                if (sPassword.length() > 0) {
+                    if (s == sPassword) {
+                        cPassword.setCompoundDrawablePadding(4);
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,R.drawable.confirm,0);
+                    }
+                    else{
+                        cPassword.setCompoundDrawablePadding(4);
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,0,0);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                sPassword = password.getText().toString();
+                if (sPassword.length() > 0) {
+                    if (Objects.equals(s.toString(), sPassword)) {
+                        cPassword.setCompoundDrawablePadding(4);
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,R.drawable.confirm,0);
+                    }
+                    else{
+                        cPassword.setCompoundDrawablePadding(4);
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,0,0);
+                    }
+                }
+            }
+        });
+
 
         return rootView;
     }

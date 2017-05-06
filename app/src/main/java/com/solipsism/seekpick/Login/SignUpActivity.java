@@ -8,6 +8,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -33,13 +35,14 @@ import org.json.JSONObject;
 
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
     AutoCompleteTextView email, name, address, pinCode, phone, username, password, cPassword;
     Button signUp;
     ImageButton location;
-    String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation="", sLat, sLong;
+    String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation = "", sLat, sLong;
     ProgressDialog progressDialog;
     int PLACE_PICKER_REQUEST = 1;
 
@@ -143,6 +146,44 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+
+        cPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sPassword = password.getText().toString();
+                if (sPassword.length() > 0) {
+                    if (s == sPassword) {
+                        cPassword.setCompoundDrawablePadding(4);
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,R.drawable.confirm,0);
+                    }
+                    else{
+                        cPassword.setCompoundDrawablePadding(4);
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,0,0);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                sPassword = password.getText().toString();
+                if (sPassword.length() > 0) {
+                    if (Objects.equals(s.toString(), sPassword)) {
+                        cPassword.setCompoundDrawablePadding(4);
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,R.drawable.confirm,0);
+                    }
+                    else{
+                        cPassword.setCompoundDrawablePadding(4);
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,0,0);
+                    }
+                }
+            }
+        });
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

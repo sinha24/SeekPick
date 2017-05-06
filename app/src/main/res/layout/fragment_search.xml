@@ -5,27 +5,64 @@
     tools:context="com.solipsism.seekpick.Search.SearchFragment">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="16sp"
+            android:layout_marginTop="16sp">
+
+            <ImageButton
+                android:id="@+id/range1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                android:padding="4sp"
+                android:contentDescription="5KM"
+                android:src="@drawable/walk" />
+
+            <ImageButton
+                android:id="@+id/range2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="4sp"
+                android:contentDescription="25KM"
+                android:src="@drawable/cycle" />
+
+            <ImageButton
+                android:id="@+id/range3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                android:padding="4sp"
+                android:contentDescription="50KM"
+                android:src="@drawable/drive" />
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="9sp">
+                android:padding="5sp">
 
                 <EditText
                     android:id="@+id/search_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@android:drawable/ic_search_category_default"
+                    android:drawablePadding="4sp"
+                    android:drawableStart="@drawable/ic_search"
                     android:hint="Search Stores...">
 
                 </EditText>
@@ -38,6 +75,6 @@
 
             </LinearLayout>
         </ScrollView>
-    </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>
