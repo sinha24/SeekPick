@@ -11,74 +11,52 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_marginTop="9sp"
+            android:text="Product Name"
+            android:textAlignment="center"
+            android:textSize="20dp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Product Name"
-                android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/item_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Enter name of product" />
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:hint="Enter name of product" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Product Price"
-                android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/item_price"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Enter MRP in Rs."
-                android:inputType="number" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_marginTop="16sp"
+            android:text="Product Price"
+            android:textAlignment="center"
+            android:textSize="20dp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Tags"
-                android:textSize="20dp" />
+        <EditText
+            android:id="@+id/item_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter MRP in Rs."
+            android:inputType="number" />
 
-            <EditText
-                android:id="@+id/tags"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Enter keywords"
-                android:inputType="textCapSentences|textMultiLine"
-                android:maxLines="6" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+            android:textAlignment="center"
+            android:text="Tags"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter keywords"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="6" />
 
 
-        </LinearLayout>
     </LinearLayout>
 
     <Button

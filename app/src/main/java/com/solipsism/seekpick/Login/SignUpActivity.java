@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -37,7 +40,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Objects;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
     AutoCompleteTextView email, name, address, pinCode, phone, username, password, cPassword;
     Button signUp;
@@ -45,6 +48,8 @@ public class SignUpActivity extends AppCompatActivity {
     String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation = "", sLat, sLong;
     ProgressDialog progressDialog;
     int PLACE_PICKER_REQUEST = 1;
+    GestureDetectorCompat gestureDetectorCompat;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,8 @@ public class SignUpActivity extends AppCompatActivity {
         username = (AutoCompleteTextView) findViewById(R.id.signup_username);
         password = (AutoCompleteTextView) findViewById(R.id.signup_password);
         cPassword = (AutoCompleteTextView) findViewById(R.id.signup_cpassword);
+
+        this.gestureDetectorCompat = new GestureDetectorCompat(this, this);
 
         signUp = (Button) findViewById(R.id.signup_button);
         location = (ImageButton) findViewById(R.id.signup_location);
@@ -159,11 +166,10 @@ public class SignUpActivity extends AppCompatActivity {
                 if (sPassword.length() > 0) {
                     if (s == sPassword) {
                         cPassword.setCompoundDrawablePadding(4);
-                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,R.drawable.confirm,0);
-                    }
-                    else{
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password, 0, R.drawable.confirm, 0);
+                    } else {
                         cPassword.setCompoundDrawablePadding(4);
-                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,0,0);
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password, 0, 0, 0);
                     }
                 }
             }
@@ -174,11 +180,10 @@ public class SignUpActivity extends AppCompatActivity {
                 if (sPassword.length() > 0) {
                     if (Objects.equals(s.toString(), sPassword)) {
                         cPassword.setCompoundDrawablePadding(4);
-                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,R.drawable.confirm,0);
-                    }
-                    else{
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password, 0, R.drawable.confirm, 0);
+                    } else {
                         cPassword.setCompoundDrawablePadding(4);
-                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,0,0);
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password, 0, 0, 0);
                     }
                 }
             }
@@ -197,7 +202,7 @@ public class SignUpActivity extends AppCompatActivity {
                 sAddress = sLocation;
                 address.setText(sAddress);
                 Toast.makeText(this, sLocation, Toast.LENGTH_LONG).show();
-                location.setBackgroundColor(Color.parseColor("#00aa00"));
+                location.setBackgroundColor(Color.parseColor("#4CAF50"));
             }
         }
     }
@@ -264,5 +269,60 @@ public class SignUpActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         //Adding request to the queue
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    private static final int SWIPE_MIN_DISTANCE = 120;
+    private static final int SWIPE_MAX_OFF_PATH = 250;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        try {
+            if (Math.abs(e1.getX() - e2.getX()) > SWIPE_MAX_OFF_PATH) {
+                return false;
+            }
+           // up to down swipe
+            else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE
+                    && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+//                Toast.makeText(SearchActivity.this,"Down",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.down_in, R.anim.fade_out);
+            }
+        } catch (Exception ignored) {
+
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        this.gestureDetectorCompat.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 }

@@ -16,7 +16,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#fff">
+        android:background="#FFEB3B">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -106,6 +106,7 @@
                         android:layout_height="55sp"
                         android:padding="4sp"
                         android:layout_weight="1"
+                        android:background="#FFC107"
                         android:contentDescription="Add Location"
                         android:src="@drawable/ic_add_location" />
                 </LinearLayout>
@@ -178,6 +179,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sign up"
+                    android:background="#673AB7"
+                    android:textColor="#ffffff"
                     android:textSize="20sp" />
 
             </LinearLayout>

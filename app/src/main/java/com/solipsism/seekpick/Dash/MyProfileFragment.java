@@ -225,7 +225,7 @@ public class MyProfileFragment extends Fragment {
                 sAddress = sLocation;
                 address.setText(sAddress);
                 Toast.makeText(getContext(), sLocation, Toast.LENGTH_LONG).show();
-                location.setBackgroundColor(Color.parseColor("#00aa00"));
+                location.setBackgroundColor(Color.parseColor("#4CAF50"));
             }
         }
     }
