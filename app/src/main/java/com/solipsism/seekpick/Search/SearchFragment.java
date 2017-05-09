@@ -1,9 +1,11 @@
 package com.solipsism.seekpick.Search;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -19,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -28,6 +32,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.solipsism.seekpick.Dash.DashActivity;
 import com.solipsism.seekpick.R;
 
 import java.io.Serializable;
@@ -69,6 +74,16 @@ public class SearchFragment extends Fragment {
         range2 = (ImageButton) rootView.findViewById(R.id.range2);
         range3 = (ImageButton) rootView.findViewById(R.id.range3);
         searchView.requestFocus();
+
+        if(getActivity().getClass() == SearchActivity.class){
+            searchView.setTextColor(Color.WHITE);
+        }else if(getActivity().getClass() == DashActivity.class){
+            searchView.setTextColor(Color.BLACK);
+            ScrollView scrollView = (ScrollView) rootView.findViewById(R.id.searchScroll);
+            RelativeLayout.LayoutParams layoutParams =(RelativeLayout.LayoutParams)scrollView.getLayoutParams();
+            layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+            layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            scrollView.setLayoutParams(layoutParams);        }
 
 
         range1.setBackground(getResources().getDrawable(R.drawable.border, null));

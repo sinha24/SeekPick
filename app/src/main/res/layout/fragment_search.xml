@@ -10,6 +10,17 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:layout_above="@+id/searchScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -46,6 +57,7 @@
         </LinearLayout>
 
         <ScrollView
+            android:id="@+id/searchScroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
@@ -70,24 +82,27 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/search_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="25sp"
-                        android:textColor="#ffffff"
                         android:background="#673AB7"
-                        android:text="SEARCH" />
+                        android:text="SEARCH"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold" />
+
                     <Button
                         android:id="@+id/nearby_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Near Me"
                         android:background="#E91E63"
-                        android:textColor="#fff"/>
+                        android:text="Near Me"
+                        android:textColor="#fff"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

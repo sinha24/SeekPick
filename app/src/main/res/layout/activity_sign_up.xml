@@ -180,8 +180,9 @@
                     android:layout_height="wrap_content"
                     android:text="Sign up"
                     android:background="#673AB7"
+                    android:textStyle="bold"
                     android:textColor="#ffffff"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
         </ScrollView>

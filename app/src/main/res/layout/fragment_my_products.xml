@@ -2,12 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="9sp"
     android:weightSum="1"
     tools:context="com.solipsism.seekpick.Dash.MyProductsFragment">
 
     <ListView
         android:id="@+id/List_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:padding="9sp"
+        />
 </LinearLayout>
