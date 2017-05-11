@@ -155,8 +155,6 @@ public class AddProductFragment extends Fragment {
             }
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 0,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         //Adding request to the queue
         requestQueue.add(stringRequest);

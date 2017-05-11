@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.solipsism.seekpick.R;
+import com.solipsism.seekpick.utils.PrefsHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity implements GestureDetector
     ProgressDialog progressDialog;
     int PLACE_PICKER_REQUEST = 1;
     GestureDetectorCompat gestureDetectorCompat;
-
+    String device;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,8 @@ public class SignUpActivity extends AppCompatActivity implements GestureDetector
         username = (AutoCompleteTextView) findViewById(R.id.signup_username);
         password = (AutoCompleteTextView) findViewById(R.id.signup_password);
         cPassword = (AutoCompleteTextView) findViewById(R.id.signup_cpassword);
-
+        device=(String) PrefsHelper.getPrefsHelper(SignUpActivity.this).getPref(PrefsHelper.FCM_TOKEN);
+        Log.e("Device Id needed :-- ",device);
         this.gestureDetectorCompat = new GestureDetectorCompat(this, this);
 
         signUp = (Button) findViewById(R.id.signup_button);
@@ -262,6 +265,7 @@ public class SignUpActivity extends AppCompatActivity implements GestureDetector
                 params.put("password", sPassword);
                 params.put("lat", sLat);
                 params.put("long", sLong);
+                params.put("deviceId",device);
                 //returning parameters
                 return params;
             }

@@ -1,9 +1,12 @@
 package com.solipsism.seekpick.Search;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,11 +14,25 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.solipsism.seekpick.Dash.DashActivity;
 import com.solipsism.seekpick.Login.LoginActivity;
 import com.solipsism.seekpick.R;
 import com.solipsism.seekpick.utils.PrefsHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SearchActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
@@ -23,13 +40,15 @@ public class SearchActivity extends AppCompatActivity implements GestureDetector
     ImageView searchUp;
     TextView signIn;
     Animation arrowShake;
-
     GestureDetectorCompat gestureDetectorCompat;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!(PrefsHelper.getPrefsHelper(SearchActivity.this).getPref(PrefsHelper.PREF_TOKEN,"token").equals("token"))) {
+
+
+        if (!(PrefsHelper.getPrefsHelper(SearchActivity.this).getPref(PrefsHelper.PREF_TOKEN, "token").equals("token"))) {
             Intent i = new Intent(SearchActivity.this, DashActivity.class);
             startActivity(i);
             finish();
@@ -42,7 +61,7 @@ public class SearchActivity extends AppCompatActivity implements GestureDetector
         searchUp = (ImageView) findViewById(R.id.search_up);
         signIn = (TextView) findViewById(R.id.search_sign_in);
         arrowShake = AnimationUtils.loadAnimation(this, R.anim.arrorw_shake);
-        this.gestureDetectorCompat = new GestureDetectorCompat(this,this);
+        this.gestureDetectorCompat = new GestureDetectorCompat(this, this);
 
         searchUp.startAnimation(arrowShake);
 
@@ -92,10 +111,12 @@ public class SearchActivity extends AppCompatActivity implements GestureDetector
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         try {
-            if (Math.abs(e1.getX() - e2.getX()) > SWIPE_MAX_OFF_PATH){
+            if (Math.abs(e1.getX() - e2.getX()) > SWIPE_MAX_OFF_PATH) {
                 return false;
             }
             // down to up swipe
@@ -111,6 +132,7 @@ public class SearchActivity extends AppCompatActivity implements GestureDetector
         }
         return false;
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "926629578632",
+    "firebase_url": "https://spfcm-ffb30.firebaseio.com",
+    "project_id": "spfcm-ffb30",
+    "storage_bucket": "spfcm-ffb30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926629578632:android:6ece69200b2244df",
+        "android_client_info": {
+          "package_name": "com.solipsism.seekpick"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926629578632-nd2n3qo58p8t50kkkjuv5rej933gerql.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWZPyp82NGDvq8_hbZfq8NhQvnLhBQbtk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
