@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements GestureDetector.
     String sEmail, sPassword;
     ImageView loginUp;
     Animation arrowShake;
-
+    String device;
     GestureDetectorCompat gestureDetectorCompat;
 
 
@@ -55,7 +55,8 @@ public class LoginActivity extends AppCompatActivity implements GestureDetector.
         login = (Button) findViewById(R.id.login_button);
         loginUp = (ImageView) findViewById(R.id.login_up);
         arrowShake = AnimationUtils.loadAnimation(this, R.anim.arrorw_shake);
-
+        device=(String) PrefsHelper.getPrefsHelper(LoginActivity.this).getPref(PrefsHelper.FCM_TOKEN);
+        Log.e("Device in login :-- ",device);
         this.gestureDetectorCompat = new GestureDetectorCompat(this, this);
 
         loginUp.startAnimation(arrowShake);
@@ -144,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements GestureDetector.
                 Map<String, String> params = new Hashtable<>();
                 params.put("username", sEmail);
                 params.put("password", sPassword);
-
+                params.put("device",device);
                 //returning parameters
                 return params;
             }
