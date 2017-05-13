@@ -17,7 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0sp"
-            android:layout_weight="6">
+            android:layout_weight="7">
 
             <FrameLayout
                 android:id="@+id/searchFrame"
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="0sp"
             android:background="@drawable/circular_layout1"
-            android:layout_weight="4">
+            android:layout_weight="3">
 
             <LinearLayout
 
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10sp"
                     android:contentDescription="^"
-                    android:src="@drawable/ic_up_arrow" />
+                    android:src="@drawable/ic_balloon" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

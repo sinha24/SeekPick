@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 public class PrefsHelper {
 
     public static final String PREF_TOKEN = "token";
+    public static final String FCM_TOKEN = "token2";
 
 
     private final SharedPreferences sharedPreferences;

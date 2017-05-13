@@ -20,6 +20,7 @@ class ProductsJsonParser {
                 newProduct.setProName(obj.getString("name"));
                 newProduct.setProPrice(obj.getString("price"));
                 newProduct.setProTags(obj.getString("tags"));
+                newProduct.setProStatus(obj.getString("status"));
                 dataList.add(newProduct);
             }
             return dataList;

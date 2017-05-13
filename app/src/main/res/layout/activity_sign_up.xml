@@ -16,7 +16,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#FFEB3B">
+        android:background="@drawable/bg_sign_up">
 
         <ScrollView
             android:layout_width="match_parent"

@@ -32,6 +32,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.solipsism.seekpick.Login.LoginActivity;
+import com.solipsism.seekpick.Login.SignUpActivity;
 import com.solipsism.seekpick.R;
 import com.solipsism.seekpick.utils.PrefsHelper;
 
@@ -50,6 +51,7 @@ import static android.app.Activity.RESULT_OK;
  */
 public class MyProfileFragment extends Fragment {
 
+    String device;
 
     public MyProfileFragment() {
         // Required empty public constructor
@@ -80,6 +82,8 @@ public class MyProfileFragment extends Fragment {
         cPassword = (AutoCompleteTextView) rootView.findViewById(R.id.my_profile_cpassword);
         saveChanges = (Button) rootView.findViewById(R.id.my_profile_button);
         location = (ImageButton) rootView.findViewById(R.id.my_profile_location);
+
+        device= PrefsHelper.getPrefsHelper(getActivity()).getPref(PrefsHelper.FCM_TOKEN);
 
         if (isOnline()) {
             progressDialog = new ProgressDialog(getActivity());
@@ -322,6 +326,7 @@ public class MyProfileFragment extends Fragment {
                 params.put("location", sAddress);
                 params.put("lat", sLat);
                 params.put("long", sLong);
+                params.put("deviceId",device);
                 //returning parameters
                 return params;
             }

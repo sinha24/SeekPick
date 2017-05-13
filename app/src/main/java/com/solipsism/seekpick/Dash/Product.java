@@ -8,6 +8,15 @@ class Product implements Serializable {
     private String ProName;
     private String ProPrice;
     private String ProTags;
+    private String ProStatus;
+
+    public String getProStatus() {
+        return ProStatus;
+    }
+
+    public void setProStatus(String proStatus) {
+        ProStatus = proStatus;
+    }
 
     String getProTags() {
         return ProTags;

@@ -5,7 +5,23 @@ import java.io.Serializable;
 class ListItem implements Serializable {
 
 
-    private String oid, name, price, shopid;
+    private String oid, name, price, shopid,status,lastupdate;
+
+    String getStatus() {
+        return status;
+    }
+
+    void setStatus(String status) {
+        this.status = status;
+    }
+
+    String getLastupdate() {
+        return lastupdate;
+    }
+
+    void setLastupdate(String lastupdate) {
+        this.lastupdate = lastupdate;
+    }
 
     String getShopid() {
         return shopid;

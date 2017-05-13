@@ -24,8 +24,10 @@ class SearchJsonParser {
                 newItem.setOid(obj.getString("_id"));
                 newItem.setName(obj.getString("name"));
                 newItem.setPrice(obj.getString("price"));
-                Log.e("id ", i + 1 + ":- " + newItem.getOid());
-                Log.e("name ", i + 1 + ":- " + newItem.getName());
+                newItem.setStatus(obj.getString("status"));
+                newItem.setLastupdate(obj.getString("lastUpdate"));
+                Log.e("status ", i + 1 + ":- " + newItem.getStatus());
+                Log.e("last update ", i + 1 + ":- " + newItem.getLastupdate());
                 Log.e("price ", i + 1 + ":- " + newItem.getPrice());
                 JSONArray obj1 = obj.getJSONArray("shopkeeper_docs");
                 JSONObject arrObject = obj1.getJSONObject(0);
