@@ -33,6 +33,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.solipsism.seekpick.Dash.DashActivity;
+import com.solipsism.seekpick.Dash.Shopkeeper;
+import com.solipsism.seekpick.Dash.ShopkeeperJsonParser;
 import com.solipsism.seekpick.R;
 
 import java.io.Serializable;
@@ -51,8 +53,9 @@ public class SearchFragment extends Fragment {
     }
 
     List<ListItem> datalist;
+    List<Shopkeeper> datalist2;
     EditText searchView;
-    Button searchButton;
+    Button searchButton,nearby;
     ImageButton range1, range2, range3;
     String searchText = "", sLat = "", sLong = "", range = "5";
     float zoom = (float) 13.0;
@@ -70,20 +73,22 @@ public class SearchFragment extends Fragment {
 
         searchView = (EditText) rootView.findViewById(R.id.search_text);
         searchButton = (Button) rootView.findViewById(R.id.search_btn);
+        nearby=(Button)rootView.findViewById(R.id.nearby_btn);
         range1 = (ImageButton) rootView.findViewById(R.id.range1);
         range2 = (ImageButton) rootView.findViewById(R.id.range2);
         range3 = (ImageButton) rootView.findViewById(R.id.range3);
         searchView.requestFocus();
 
-        if(getActivity().getClass() == SearchActivity.class){
+        if (getActivity().getClass() == SearchActivity.class) {
             searchView.setTextColor(Color.WHITE);
-        }else if(getActivity().getClass() == DashActivity.class){
+        } else if (getActivity().getClass() == DashActivity.class) {
             searchView.setTextColor(Color.BLACK);
             ScrollView scrollView = (ScrollView) rootView.findViewById(R.id.searchScroll);
-            RelativeLayout.LayoutParams layoutParams =(RelativeLayout.LayoutParams)scrollView.getLayoutParams();
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) scrollView.getLayoutParams();
             layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
             layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            scrollView.setLayoutParams(layoutParams);        }
+            scrollView.setLayoutParams(layoutParams);
+        }
 
 
         range1.setBackground(getResources().getDrawable(R.drawable.border, null));
@@ -171,6 +176,16 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
+
+        nearby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Location location = gps.getLocation();
+                sLat = String.valueOf(location.getLatitude());
+                sLong = String.valueOf(location.getLongitude());
+                nearbyShop("https://seekpick.herokuapp.com/search/nearby");
+            }
+        });
         return rootView;
     }
 
@@ -187,6 +202,7 @@ public class SearchFragment extends Fragment {
                     public void onResponse(String response) {
                         Intent i = new Intent(getActivity(), MapsActivity.class);
                         datalist = SearchJsonParser.parsefeed(response);
+
                         i.putExtra("response", response);
                         i.putExtra("zoom", zoom);
                         i.putExtra("itemList", (Serializable) datalist);
@@ -218,5 +234,44 @@ public class SearchFragment extends Fragment {
         //Adding request to the queue
         requestQueue.add(stringRequest);
 
+    }
+
+    public void nearbyShop(String uri) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, uri,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        datalist2 = ShopkeeperJsonParser.parsefeed(response);
+                       Intent i = new Intent(getActivity(), MapsActivity2.class);
+                        i.putExtra("response", response);
+                        i.putExtra("zoom", zoom);
+                        i.putExtra("itemList", (Serializable) datalist2);
+                        gps.stopUsingGPS();
+                        startActivity(i);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Search error", String.valueOf(error));
+                Toast.makeText(getActivity(), "Cannot find your location", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new Hashtable<>();
+                Log.e("Params", sLat + " " + sLong);
+                params.put("lat", sLat);
+                params.put("long", sLong);
+                params.put("range", range);
+
+                //returning parameters
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+
+        //Adding request to the queue
+        requestQueue.add(stringRequest);
     }
 }
