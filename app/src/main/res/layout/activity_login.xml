@@ -16,7 +16,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#fff">
+        android:background="@drawable/bg_login">
 
         <LinearLayout
             android:id="@+id/bg1"
@@ -28,7 +28,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0sp"
-                android:layout_weight="6">
+                android:layout_weight="7">
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -53,6 +53,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:drawablePadding="4sp"
+                                android:background="@drawable/border_blue"
                                 android:drawableStart="@drawable/users"
                                 android:hint="Username"
                                 android:inputType="textEmailAddress"
@@ -95,8 +96,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0sp"
-                android:layout_weight="4"
-                android:background="@drawable/circular_layout2" >
+                android:layout_weight="3"
+                android:background="@drawable/circular_layout1" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -117,7 +118,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="UP"
-                        android:src="@drawable/ic_up_arrow" />
+                        android:src="@drawable/ic_balloon" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

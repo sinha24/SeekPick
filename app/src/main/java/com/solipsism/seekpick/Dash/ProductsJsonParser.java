@@ -21,6 +21,7 @@ class ProductsJsonParser {
                 newProduct.setProPrice(obj.getString("price"));
                 newProduct.setProTags(obj.getString("tags"));
                 newProduct.setProStatus(obj.getString("status"));
+                newProduct.setProUpdate(obj.getString("lastUpdate"));
                 dataList.add(newProduct);
             }
             return dataList;

@@ -1,9 +1,11 @@
 package com.solipsism.seekpick.Login;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.view.GestureDetectorCompat;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -48,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity implements GestureDetector
     Button signUp;
     ImageButton location;
     String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation = "", sLat, sLong;
-    ProgressDialog progressDialog;
+    Dialog progressDialog;
     int PLACE_PICKER_REQUEST = 1;
     GestureDetectorCompat gestureDetectorCompat;
     String device;
@@ -66,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity implements GestureDetector
         username = (AutoCompleteTextView) findViewById(R.id.signup_username);
         password = (AutoCompleteTextView) findViewById(R.id.signup_password);
         cPassword = (AutoCompleteTextView) findViewById(R.id.signup_cpassword);
-        device=(String) PrefsHelper.getPrefsHelper(SignUpActivity.this).getPref(PrefsHelper.FCM_TOKEN);
+        device= PrefsHelper.getPrefsHelper(SignUpActivity.this).getPref(PrefsHelper.FCM_TOKEN);
         Log.e("Device Id needed :-- ",device);
         this.gestureDetectorCompat = new GestureDetectorCompat(this, this);
 
@@ -111,8 +114,10 @@ public class SignUpActivity extends AppCompatActivity implements GestureDetector
                                             if (sUsername.length() > 0) {
                                                 if (sPassword.length() > 5) {
                                                     if (sCPassword.equals(sPassword)) {
-                                                        progressDialog = new ProgressDialog(SignUpActivity.this);
-                                                        progressDialog.setTitle("Registering..");
+                                                        progressDialog = new Dialog(SignUpActivity.this);
+                                                        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                                        progressDialog.setContentView(R.layout.custom_dialog_progress);
+                                                        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                                                         progressDialog.setCancelable(false);
                                                         progressDialog.show();
                                                         SignUp("https://seekpick.herokuapp.com/register");
@@ -217,7 +222,10 @@ public class SignUpActivity extends AppCompatActivity implements GestureDetector
     }
 
     public void onGettingResponse() {
-        progressDialog.dismiss();
+        if (progressDialog != null) {
+            progressDialog.cancel();
+            progressDialog.hide();
+        }
         Toast.makeText(SignUpActivity.this, " login to continue ", Toast.LENGTH_LONG).show();
         Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
         this.finish();
@@ -237,19 +245,28 @@ public class SignUpActivity extends AppCompatActivity implements GestureDetector
                             message = obje.getString("message");
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            progressDialog.dismiss();
+                            if (progressDialog != null) {
+                                progressDialog.cancel();
+                                progressDialog.hide();
+                            }
                         }
                         if (success.equals("true")) {
                             onGettingResponse();
                         } else {
-                            progressDialog.dismiss();
+                            if (progressDialog != null) {
+                                progressDialog.cancel();
+                                progressDialog.hide();
+                            }
                             Toast.makeText(SignUpActivity.this, message, Toast.LENGTH_LONG).show();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
+                if (progressDialog != null) {
+                    progressDialog.cancel();
+                    progressDialog.hide();
+                }
                 Toast.makeText(SignUpActivity.this, "Error in sign up ", Toast.LENGTH_SHORT).show();
             }
         }) {
@@ -310,7 +327,7 @@ public class SignUpActivity extends AppCompatActivity implements GestureDetector
             if (Math.abs(e1.getX() - e2.getX()) > SWIPE_MAX_OFF_PATH) {
                 return false;
             }
-           // up to down swipe
+            // up to down swipe
             else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE
                     && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
 //                Toast.makeText(SearchActivity.this,"Down",Toast.LENGTH_SHORT).show();

@@ -7,20 +7,20 @@ class ListItem implements Serializable {
 
     private String oid, name, price, shopid,status,lastupdate;
 
-    public String getLastupdate() {
-        return lastupdate;
-    }
-
-    public void setLastupdate(String lastupdate) {
-        this.lastupdate = lastupdate;
-    }
-
-    public String getStatus() {
+    String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    void setStatus(String status) {
         this.status = status;
+    }
+
+    String getLastupdate() {
+        return lastupdate;
+    }
+
+    void setLastupdate(String lastupdate) {
+        this.lastupdate = lastupdate;
     }
 
     String getShopid() {

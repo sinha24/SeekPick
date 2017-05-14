@@ -39,7 +39,7 @@ import java.util.Map;
 
 class ProductsAdapter extends ArrayAdapter<Product> {
     private Context context;
-    private List<Product> dataList;
+    private List<Product> dataList, allProduct;
     private Product product2;
     private int pos;
 
@@ -48,6 +48,7 @@ class ProductsAdapter extends ArrayAdapter<Product> {
         super(context, resource, objects);
         this.context = context;
         this.dataList = objects;
+        this.allProduct = objects;
     }
 
     @NonNull
@@ -55,7 +56,7 @@ class ProductsAdapter extends ArrayAdapter<Product> {
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.products_form, parent, false);
+        View view = inflater.inflate(R.layout.modal_my_products, parent, false);
 
         MyViewHolder viewHolder = new MyViewHolder();
         Product product = dataList.get(position);
@@ -63,11 +64,12 @@ class ProductsAdapter extends ArrayAdapter<Product> {
         viewHolder.mProprice = (TextView) view.findViewById(R.id.price1);
         viewHolder.delete = (Button) view.findViewById(R.id.delete_product);
         viewHolder.mProTags = (TextView) view.findViewById(R.id.tag1);
+        viewHolder.mProStatus = (TextView) view.findViewById(R.id.status1);
         viewHolder.edit = (Button) view.findViewById(R.id.edit_product);
-
         viewHolder.mProName.setText(product.getProName());
         viewHolder.mProprice.setText(product.getProPrice());
         viewHolder.mProTags.setText(product.getProTags());
+        viewHolder.mProStatus.setText(product.getProStatus() + " " + product.getProUpdate());
 
         viewHolder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +80,7 @@ class ProductsAdapter extends ArrayAdapter<Product> {
                     Intent intent = new Intent(context, EditProductActivity.class);
                     intent.putExtra("product_object", product2);
                     intent.putExtra("value", 3);
-                    ((Activity)context).finish();
+                    ((Activity) context).finish();
                     context.startActivity(intent);
                 } else {
                     Toast.makeText(context, "Network isnt available ", Toast.LENGTH_SHORT).show();
@@ -116,6 +118,7 @@ class ProductsAdapter extends ArrayAdapter<Product> {
         private TextView mProName;
         private TextView mProTags;
         private TextView mProprice;
+        private TextView mProStatus;
         private Button edit, delete;
 
     }
@@ -183,7 +186,6 @@ class ProductsAdapter extends ArrayAdapter<Product> {
         MyProductsFragment myProductsFragment = new MyProductsFragment();
         ((DashActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.content, myProductsFragment).commit();
     }
-
 }
 
 

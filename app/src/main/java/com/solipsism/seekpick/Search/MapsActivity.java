@@ -27,7 +27,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<String> markerTitles;
     float zoom;
 
-    static ListItem resultItem;
+    static ListItem resultShop;
     BottomSheetDialogFragment bottomSheetDialogFragment;
 
     @Override
@@ -95,8 +95,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public void onInfoWindowClick(Marker arg0) {
-                resultItem = items.get(markerTitles.indexOf(arg0.getTitle()));
-                bottomSheetDialogFragment = new CustomBottomSheetDialogFragment();
+                resultShop = items.get(markerTitles.indexOf(arg0.getTitle()));
+                bottomSheetDialogFragment = new SearchResultBottomSheet();
                 bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
             }
 

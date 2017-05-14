@@ -6,58 +6,80 @@
     android:padding="9sp"
     tools:context="com.solipsism.seekpick.Dash.AddProductFragment">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_above="@+id/upload"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="40sp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="9sp"
-            android:text="Product Name"
-            android:textAlignment="center"
-            android:textSize="20dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="40sp">
 
-        <EditText
-            android:id="@+id/item_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter name of product" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9sp"
+                android:text="Product Name"
+                android:textAlignment="center"
+                android:textSize="20dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16sp"
-            android:text="Product Price"
-            android:textAlignment="center"
-            android:textSize="20dp" />
+            <EditText
+                android:id="@+id/item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter name of product" />
 
-        <EditText
-            android:id="@+id/item_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter MRP in Rs."
-            android:inputType="number" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16sp"
+                android:text="Product Price"
+                android:textAlignment="center"
+                android:textSize="20dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16sp"
-            android:textAlignment="center"
-            android:text="Tags"
-            android:textSize="20dp" />
+            <EditText
+                android:id="@+id/item_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter MRP in Rs."
+                android:inputType="number" />
 
-        <EditText
-            android:id="@+id/tags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter keywords"
-            android:inputType="textCapSentences|textMultiLine"
-            android:maxLines="6" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16sp"
+                android:text="Tags"
+                android:textAlignment="center"
+                android:textSize="20dp" />
 
+            <EditText
+                android:id="@+id/tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter keywords"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="6" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16sp"
+                android:text="Availability"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/available"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/upload"

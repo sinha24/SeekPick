@@ -9,16 +9,23 @@ class Product implements Serializable {
     private String ProPrice;
     private String ProTags;
     private String ProStatus;
+    private String ProUpdate;
 
+    String getProUpdate() {
+        return ProUpdate;
+    }
 
+    void setProUpdate(String proUpdate) {
+        ProUpdate = proUpdate;
+    }
 
-    public String getProStatus() {
+    String getProStatus() {
         return ProStatus;
     }
-    public void setProStatus(String proStatus) {
+
+    void setProStatus(String proStatus) {
         ProStatus = proStatus;
     }
-
 
     String getProTags() {
         return ProTags;

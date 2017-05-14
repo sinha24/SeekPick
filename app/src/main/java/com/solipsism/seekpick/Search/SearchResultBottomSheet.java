@@ -29,13 +29,13 @@ import org.json.JSONObject;
 import java.util.Hashtable;
 import java.util.Map;
 
-import static com.solipsism.seekpick.Search.MapsActivity.resultItem;
+import static com.solipsism.seekpick.Search.MapsActivity.resultShop;
 
-public class CustomBottomSheetDialogFragment extends BottomSheetDialogFragment {
+public class SearchResultBottomSheet extends BottomSheetDialogFragment {
 
-    TextView bsName, bsPrice, bsShopName, bsAddress, bsNumber;
+    TextView bsName, bsPrice, bsShopName, bsAddress, bsNumber,bsStatus;
     Button bsCall, bsPing;
-    String shoid,name;
+    String shopId,name;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,22 +65,24 @@ public class CustomBottomSheetDialogFragment extends BottomSheetDialogFragment {
         bsShopName = (TextView) contentView.findViewById(R.id.bsShopName);
         bsAddress = (TextView) contentView.findViewById(R.id.bsAddress);
         bsNumber = (TextView) contentView.findViewById(R.id.bsNumber);
+        bsStatus = (TextView) contentView.findViewById(R.id.bsStatus);
         bsCall = (Button) contentView.findViewById(R.id.bsCall);
         bsPing = (Button) contentView.findViewById(R.id.bsPing);
 
-        shoid=resultItem.getShopid();
-        name=resultItem.getName();
+        shopId = resultShop.getShopid();
+        name= resultShop.getName();
 
-        bsName.setText(resultItem.getName());
-        bsPrice.setText(resultItem.getPrice());
-        bsShopName.setText(resultItem.getShopname());
-        bsNumber.setText(resultItem.getPhone());
-        bsAddress.setText(resultItem.getAddress() + " - " + resultItem.getPincode());
+        bsName.setText(resultShop.getName());
+        bsPrice.setText(resultShop.getPrice());
+        bsShopName.setText(resultShop.getShopname());
+        bsNumber.setText(resultShop.getPhone());
+        bsAddress.setText(resultShop.getAddress() + " - " + resultShop.getPincode());
+        bsStatus.setText("Status: "+ resultShop.getStatus()+"\nLast Updated on: "+ resultShop.getLastupdate());
         bsCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + resultItem.getPhone()));
+                intent.setData(Uri.parse("tel:" + resultShop.getPhone()));
                 try {
                     startActivity(intent);
                 } catch (Exception e) {
@@ -91,7 +93,7 @@ public class CustomBottomSheetDialogFragment extends BottomSheetDialogFragment {
         bsPing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    doPing("https://seekpick.herokuapp.com/ping");
+                doPing("https://seekpick.herokuapp.com/ping");
             }
         });
         dialog.setContentView(contentView);
@@ -134,7 +136,7 @@ public class CustomBottomSheetDialogFragment extends BottomSheetDialogFragment {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new Hashtable<>();
-                params.put("shopId", shoid);
+                params.put("shopId", shopId);
                 params.put("name", name);
 
                 //returning parameters

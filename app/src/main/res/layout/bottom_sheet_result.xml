@@ -61,6 +61,12 @@
             android:layout_height="wrap_content"
             android:text="Phone Number"
             android:textSize="20sp" />
+        <TextView
+            android:id="@+id/bsStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <LinearLayout

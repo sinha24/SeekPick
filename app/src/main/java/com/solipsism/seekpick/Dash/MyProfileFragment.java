@@ -1,10 +1,12 @@
 package com.solipsism.seekpick.Dash;
 
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -57,12 +60,12 @@ public class MyProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    ProgressDialog progressDialog;
+    Dialog progressDialog;
     AutoCompleteTextView email, name, address, pinCode, phone, username, password, cPassword;
     Button saveChanges;
     ImageButton location;
     UserDetails userDetails;
-    String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation="", sLat, sLong;
+    String sEmail, sName, sAddress, sPinCode, sPhone, sUsername, sPassword, sCPassword, sLocation = "", sLat, sLong;
     int PLACE_PICKER_REQUEST = 1;
 
     @Override
@@ -83,11 +86,13 @@ public class MyProfileFragment extends Fragment {
         saveChanges = (Button) rootView.findViewById(R.id.my_profile_button);
         location = (ImageButton) rootView.findViewById(R.id.my_profile_location);
 
-        device=(String) PrefsHelper.getPrefsHelper(getActivity()).getPref(PrefsHelper.FCM_TOKEN);
+        device = PrefsHelper.getPrefsHelper(getActivity()).getPref(PrefsHelper.FCM_TOKEN);
 
         if (isOnline()) {
-            progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setTitle("Fetching Details...");
+            progressDialog = new Dialog(getActivity());
+            progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            progressDialog.setContentView(R.layout.custom_dialog_progress);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             progressDialog.setCancelable(false);
             progressDialog.show();
             getUser("https://seekpick.herokuapp.com/getuser");
@@ -130,8 +135,10 @@ public class MyProfileFragment extends Fragment {
                                             if (sUsername.length() > 0) {
                                                 if (sPassword.length() > 5) {
                                                     if (sCPassword.equals(sPassword)) {
-                                                        progressDialog = new ProgressDialog(getActivity());
-                                                        progressDialog.setTitle("Saving details..");
+                                                        progressDialog = new Dialog(getActivity());
+                                                        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                                        progressDialog.setContentView(R.layout.custom_dialog_progress);
+                                                        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                                                         progressDialog.setCancelable(false);
                                                         progressDialog.show();
                                                         editProfile("https://seekpick.herokuapp.com/edit");
@@ -189,11 +196,10 @@ public class MyProfileFragment extends Fragment {
                 if (sPassword.length() > 0) {
                     if (s == sPassword) {
                         cPassword.setCompoundDrawablePadding(4);
-                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,R.drawable.confirm,0);
-                    }
-                    else{
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password, 0, R.drawable.confirm, 0);
+                    } else {
                         cPassword.setCompoundDrawablePadding(4);
-                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,0,0);
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password, 0, 0, 0);
                     }
                 }
             }
@@ -204,11 +210,10 @@ public class MyProfileFragment extends Fragment {
                 if (sPassword.length() > 0) {
                     if (Objects.equals(s.toString(), sPassword)) {
                         cPassword.setCompoundDrawablePadding(4);
-                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,R.drawable.confirm,0);
-                    }
-                    else{
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password, 0, R.drawable.confirm, 0);
+                    } else {
                         cPassword.setCompoundDrawablePadding(4);
-                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password,0,0,0);
+                        cPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.password, 0, 0, 0);
                     }
                 }
             }
@@ -252,14 +257,20 @@ public class MyProfileFragment extends Fragment {
                         pinCode.setText(userDetails.getPincode());
                         phone.setText(userDetails.getPhone());
                         username.setText(userDetails.getUsername());
-                        progressDialog.dismiss();
+                        if (progressDialog != null) {
+                            progressDialog.cancel();
+                            progressDialog.hide();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getActivity(), "Login Again ", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
-                progressDialog.dismiss();
+                if (progressDialog != null) {
+                    progressDialog.cancel();
+                    progressDialog.hide();
+                }
                 getActivity().finish();
                 startActivity(i);
             }
@@ -277,7 +288,10 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void onSavedChanges() {
-        progressDialog.dismiss();
+        if (progressDialog != null) {
+            progressDialog.cancel();
+            progressDialog.hide();
+        }
     }
 
     public void editProfile(String uri) {
@@ -293,13 +307,19 @@ public class MyProfileFragment extends Fragment {
                             message = object.getString("message");
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            progressDialog.dismiss();
+                            if (progressDialog != null) {
+                                progressDialog.cancel();
+                                progressDialog.hide();
+                            }
                         }
                         if (success.equals("true")) {
                             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                             onSavedChanges();
                         } else {
-                            progressDialog.dismiss();
+                            if (progressDialog != null) {
+                                progressDialog.cancel();
+                                progressDialog.hide();
+                            }
                             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                         }
 
@@ -307,7 +327,10 @@ public class MyProfileFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progressDialog.dismiss();
+                if (progressDialog != null) {
+                    progressDialog.cancel();
+                    progressDialog.hide();
+                }
                 Toast.makeText(getActivity(), "Login Again", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 getActivity().finish();
@@ -326,7 +349,7 @@ public class MyProfileFragment extends Fragment {
                 params.put("location", sAddress);
                 params.put("lat", sLat);
                 params.put("long", sLong);
-                params.put("deviceId",device);
+                params.put("deviceId", device);
                 //returning parameters
                 return params;
             }
