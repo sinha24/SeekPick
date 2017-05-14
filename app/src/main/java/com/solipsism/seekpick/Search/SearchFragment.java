@@ -2,10 +2,13 @@ package com.solipsism.seekpick.Search;
 
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -18,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -52,11 +56,13 @@ public class SearchFragment extends Fragment {
 
     List<ListItem> datalist;
     EditText searchView;
-    Button searchButton;
+    Button searchButton,nearby;
+    List<Shopkeeper> datalist2;
     ImageButton range1, range2, range3;
     String searchText = "", sLat = "", sLong = "", range = "5";
     float zoom = (float) 13.0;
     GPSTracker gps;
+    Dialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,20 +76,22 @@ public class SearchFragment extends Fragment {
 
         searchView = (EditText) rootView.findViewById(R.id.search_text);
         searchButton = (Button) rootView.findViewById(R.id.search_btn);
+        nearby=(Button)rootView.findViewById(R.id.nearby_btn);
         range1 = (ImageButton) rootView.findViewById(R.id.range1);
         range2 = (ImageButton) rootView.findViewById(R.id.range2);
         range3 = (ImageButton) rootView.findViewById(R.id.range3);
         searchView.requestFocus();
 
-        if(getActivity().getClass() == SearchActivity.class){
+        if (getActivity().getClass() == SearchActivity.class) {
             searchView.setTextColor(Color.WHITE);
-        }else if(getActivity().getClass() == DashActivity.class){
+        } else if (getActivity().getClass() == DashActivity.class) {
             searchView.setTextColor(Color.BLACK);
             ScrollView scrollView = (ScrollView) rootView.findViewById(R.id.searchScroll);
-            RelativeLayout.LayoutParams layoutParams =(RelativeLayout.LayoutParams)scrollView.getLayoutParams();
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) scrollView.getLayoutParams();
             layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
             layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            scrollView.setLayoutParams(layoutParams);        }
+            scrollView.setLayoutParams(layoutParams);
+        }
 
 
         range1.setBackground(getResources().getDrawable(R.drawable.border, null));
@@ -162,13 +170,43 @@ public class SearchFragment extends Fragment {
                                 .appendPath("search")
                                 .appendQueryParameter("id", searchText);
                         String urlQuery = builder.build().toString();
-                        Log.e("url ", urlQuery);
+                        Log.e("url ", urlQuery);/*
+                        progressDialog = new ProgressDialog(getActivity());
+                        progressDialog.setTitle("Searching...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();*/
+                        progressDialog = new Dialog(getActivity());
+                        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        progressDialog.setContentView(R.layout.custom_dialog_progress);
+                        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
                         search(urlQuery);
                     }
                 } else {
                     searchView.requestFocus();
                     searchView.setError("Search something..");
                 }
+            }
+        });
+
+        nearby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Location location = gps.getLocation();
+                    sLat = String.valueOf(location.getLatitude());
+                    sLong = String.valueOf(location.getLongitude());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                progressDialog = new Dialog(getActivity());
+                progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                progressDialog.setContentView(R.layout.custom_dialog_progress);
+                progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                nearbyShop("https://seekpick.herokuapp.com/search/nearby");
             }
         });
         return rootView;
@@ -185,17 +223,33 @@ public class SearchFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Intent i = new Intent(getActivity(), MapsActivity.class);
-                        datalist = SearchJsonParser.parsefeed(response);
-                        i.putExtra("response", response);
-                        i.putExtra("zoom", zoom);
-                        i.putExtra("itemList", (Serializable) datalist);
-                        gps.stopUsingGPS();
-                        startActivity(i);
+                        if (response.length() > 2) {
+                            Intent i = new Intent(getActivity(), MapsActivity.class);
+                            datalist = SearchJsonParser.parsefeed(response);
+                            i.putExtra("response", response);
+                            i.putExtra("zoom", zoom);
+                            i.putExtra("itemList", (Serializable) datalist);
+                            gps.stopUsingGPS();
+                            if (progressDialog != null) {
+                                progressDialog.cancel();
+                                progressDialog.hide();
+                            }
+                            startActivity(i);
+                        } else {
+                            if (progressDialog != null) {
+                                progressDialog.cancel();
+                                progressDialog.hide();
+                            }
+                            Toast.makeText(getActivity(), "No items found", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if (progressDialog != null) {
+                    progressDialog.cancel();
+                    progressDialog.hide();
+                }
                 Log.e("Search error", String.valueOf(error));
                 Toast.makeText(getActivity(), "Cannot find your location", Toast.LENGTH_SHORT).show();
             }
@@ -218,5 +272,52 @@ public class SearchFragment extends Fragment {
         //Adding request to the queue
         requestQueue.add(stringRequest);
 
+    }
+
+    public void nearbyShop(String uri) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, uri,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (progressDialog != null) {
+                            progressDialog.cancel();
+                            progressDialog.hide();
+                        }
+                        datalist2 = ShopkeeperJsonParser.parsefeed(response);
+                        Intent i = new Intent(getActivity(), NearMapsActivity.class);
+                        i.putExtra("response", response);
+                        i.putExtra("zoom", zoom);
+                        i.putExtra("itemList", (Serializable) datalist2);
+                        gps.stopUsingGPS();
+                        startActivity(i);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (progressDialog != null) {
+                    progressDialog.cancel();
+                    progressDialog.hide();
+                }
+                Log.e("Search error", String.valueOf(error));
+                Toast.makeText(getActivity(), "Cannot find your location", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new Hashtable<>();
+                Log.e("Params", sLat + " " + sLong);
+                params.put("lat", sLat);
+                params.put("long", sLong);
+                params.put("range", range);
+
+                //returning parameters
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+
+        //Adding request to the queue
+        requestQueue.add(stringRequest);
     }
 }

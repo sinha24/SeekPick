@@ -1,6 +1,7 @@
 package com.solipsism.seekpick.Dash;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -10,8 +11,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -29,6 +32,7 @@ import com.solipsism.seekpick.utils.PrefsHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,9 +47,11 @@ public class AddProductFragment extends Fragment {
     }
 
     final String ADD_URL = "https://seekpick.herokuapp.com/item/add";
-    String itemName, itemPrice, itemTags;
+    String itemName, itemPrice, itemTags, itemAvailable;
     EditText mItemName, mItemPrice, mTags;
+    Spinner mItemAvailable;
     Button mUpload;
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +62,14 @@ public class AddProductFragment extends Fragment {
         mItemName = (EditText) rootView.findViewById(R.id.item_name);
         mItemPrice = (EditText) rootView.findViewById(R.id.item_price);
         mTags = (EditText) rootView.findViewById(R.id.tags);
+        mItemAvailable = (Spinner) rootView.findViewById(R.id.available);
         mUpload = (Button) rootView.findViewById(R.id.upload);
+
+        ArrayList<String> arrayList = new ArrayList<String>();
+        arrayList.add("Available");
+        arrayList.add("Not Available");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, arrayList);
+        mItemAvailable.setAdapter(adapter);
 
         mUpload.setOnClickListener(new View.OnClickListener() {
 
@@ -64,14 +77,21 @@ public class AddProductFragment extends Fragment {
                                            itemName = mItemName.getText().toString();
                                            itemPrice = mItemPrice.getText().toString();
                                            itemTags = mTags.getText().toString();
+                                           itemAvailable = mItemAvailable.getSelectedItem().toString();
 
                                            if (isOnline()) {
                                                if (itemName.length()>0) {
                                                    if (itemPrice.length()>0) {
                                                        if (itemTags.length()>0) {
+                                                           progressDialog= new ProgressDialog(getActivity());
+                                                           progressDialog.setTitle("Adding...");
+                                                           progressDialog.setCancelable(false);
+                                                           progressDialog.show();
                                                            try {
                                                                UploadAdd();
                                                            } catch (JSONException e) {
+                                                               progressDialog.dismiss();
+                                                               Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
                                                                e.printStackTrace();
                                                            }
                                                        } else {
@@ -124,6 +144,7 @@ public class AddProductFragment extends Fragment {
                             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                             AfterResponse();
                         } else {
+                            progressDialog.dismiss();
                             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                         }
                     }
@@ -132,6 +153,7 @@ public class AddProductFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getActivity(), "Login again", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                         Intent i = new Intent(getActivity(), LoginActivity.class);
                         getActivity().finish();
                         startActivity(i);
@@ -144,6 +166,7 @@ public class AddProductFragment extends Fragment {
                 params.put("itemname", itemName);
                 params.put("itemprice", itemPrice);
                 params.put("tags", itemTags);
+                params.put("status", itemAvailable);
                 return params;
             }
 
@@ -164,5 +187,6 @@ public class AddProductFragment extends Fragment {
         mItemName.setText("");
         mItemPrice.setText("");
         mTags.setText("");
+        progressDialog.dismiss();
     }
 }

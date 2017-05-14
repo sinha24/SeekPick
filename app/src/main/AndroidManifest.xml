@@ -42,7 +42,7 @@
             android:name=".Dash.DashActivity"
             android:label="Dashboard" />
         <activity
-            android:name=".Search.SearchResultActivity"
+            android:name=".Search.AllProductActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".Dash.EditProductActivity" />
 
@@ -57,6 +57,10 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".Search.NearMapsActivity"
+            android:label="@string/title_activity_near_maps" />
+        <activity android:name=".Search.AllProductsActivity"></activity>
     </application>
 
 </manifest>

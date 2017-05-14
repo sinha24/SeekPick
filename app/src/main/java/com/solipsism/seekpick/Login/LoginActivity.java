@@ -1,7 +1,9 @@
 package com.solipsism.seekpick.Login;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.view.GestureDetectorCompat;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AutoCompleteTextView;
@@ -44,6 +47,7 @@ public class LoginActivity extends AppCompatActivity implements GestureDetector.
     Animation arrowShake;
     String device;
     GestureDetectorCompat gestureDetectorCompat;
+    Dialog progressDialog;
 
 
     @Override
@@ -68,6 +72,12 @@ public class LoginActivity extends AppCompatActivity implements GestureDetector.
                     sPassword = password.getText().toString();
                     if (sEmail.length() > 0) {
                         if (sPassword.length() > 0) {
+                            progressDialog = new Dialog(LoginActivity.this);
+                            progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            progressDialog.setContentView(R.layout.custom_dialog_progress);
+                            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                            progressDialog.setCancelable(false);
+                            progressDialog.show();
                             login("https://seekpick.herokuapp.com/login");
                         } else {
                             password.requestFocus();
@@ -126,6 +136,10 @@ public class LoginActivity extends AppCompatActivity implements GestureDetector.
                     public void onResponse(String response) {
                         log = LoginJsonParser.parsefeed(response);
                         Log.e("Login", log.getSuccess());
+                        if (progressDialog != null) {
+                            progressDialog.cancel();
+                            progressDialog.hide();
+                        }
                         if (log.getSuccess().equals("true")) {
                             PrefsHelper.getPrefsHelper(LoginActivity.this).savePref(PrefsHelper.PREF_TOKEN, log.getToken());
                             onGettingResponse();
@@ -136,6 +150,10 @@ public class LoginActivity extends AppCompatActivity implements GestureDetector.
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if (progressDialog != null) {
+                    progressDialog.cancel();
+                    progressDialog.hide();
+                }
                 Toast.makeText(LoginActivity.this, "Error in login ", Toast.LENGTH_SHORT).show();
             }
         }) {
