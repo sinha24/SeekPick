@@ -80,8 +80,9 @@ public class MyProductsFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
-                adapter.notifyDataSetChanged();
+                String ss=s.toString();
+                if(ss.length()>0)
+                {adapter.getFilter().filter(ss);}
             }
 
             @Override
