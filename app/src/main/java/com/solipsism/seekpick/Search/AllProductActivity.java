@@ -78,8 +78,8 @@ public class AllProductActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
-                adapter.notifyDataSetChanged();
+                adapter.getFilter().filter(s.toString());
+
             }
 
             @Override

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ import com.solipsism.seekpick.utils.PrefsHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,13 +44,23 @@ import java.util.Map;
 
 class ProductsAdapter extends ArrayAdapter<Product> {
     private Context context;
-    private List<Product> dataList;
+    private List<Product> dataList,allProduct;
+    private ProductFilter filter;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     ProductsAdapter(Context context, int resource, List<Product> objects) {
         super(context, resource, objects);
         this.context = context;
         this.dataList = objects;
+        this.allProduct=new ArrayList<Product>();
+        this.allProduct.addAll(objects);
+    }
+    @Override
+    public Filter getFilter() {
+        if (filter == null){
+            filter  = new ProductFilter();
+        }
+        return filter;
     }
 
     @NonNull
@@ -74,6 +86,48 @@ class ProductsAdapter extends ArrayAdapter<Product> {
         private TextView mProprice;
         private TextView mProStatus;
     }
+    private class ProductFilter extends Filter {
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            dataList = (ArrayList<Product>)results.values;
+            notifyDataSetChanged();
+            clear();
+            for(int i = 0, l = dataList.size(); i < l; i++)
+                add(dataList.get(i));
+            notifyDataSetInvalidated();
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            constraint = constraint.toString().toLowerCase();
+            FilterResults result = new FilterResults();
+            if(constraint != null && constraint.toString().length() > 0)
+            {
+                Log.e("in filter",allProduct.size()+"");
+                ArrayList<Product> filteredItems = new ArrayList<Product>();
+
+                for(int i = 0, l = allProduct.size(); i < l; i++)
+                {
+                    Product newProduct = allProduct.get(i);
+                    if(newProduct.getProName().toString().toLowerCase().contains(constraint))
+                        filteredItems.add(newProduct);
+                }
+                result.count = filteredItems.size();
+                result.values = filteredItems;
+            }
+            else
+            {
+                synchronized(this)
+                {  Log.e("no char :--",allProduct.size()+"");
+                    result.values = allProduct;
+                    result.count = allProduct.size();
+
+                }
+            }
+            return result;
+        }
+    }
+
 }
 
 

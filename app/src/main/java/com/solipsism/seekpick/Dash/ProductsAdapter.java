@@ -60,8 +60,11 @@ class ProductsAdapter extends ArrayAdapter<Product> {
         super(context, resource, objects);
         this.context = context;
         this.dataList = objects;
-        this.allProduct = objects;
+        this.allProduct = new ArrayList<Product>();
+        this.allProduct.addAll(objects);
     }
+
+
 
     @NonNull
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
@@ -201,13 +204,12 @@ class ProductsAdapter extends ArrayAdapter<Product> {
     private class ProductFilter extends Filter{
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            dataList = (ArrayList<Product>)results.values;
-            notifyDataSetChanged();
-            clear();
+                dataList = (ArrayList<Product>)results.values;
+                notifyDataSetChanged();
+                clear();
             for(int i = 0, l = dataList.size(); i < l; i++)
                 add(dataList.get(i));
             notifyDataSetInvalidated();
-
     }
 
         @Override
@@ -216,6 +218,7 @@ class ProductsAdapter extends ArrayAdapter<Product> {
             FilterResults result = new FilterResults();
             if(constraint != null && constraint.toString().length() > 0)
             {
+                Log.e("in filter",allProduct.size()+"");
                 ArrayList<Product> filteredItems = new ArrayList<Product>();
 
                 for(int i = 0, l = allProduct.size(); i < l; i++)
@@ -230,9 +233,10 @@ class ProductsAdapter extends ArrayAdapter<Product> {
             else
             {
                 synchronized(this)
-                {
+                {  Log.e("no char :--",allProduct.size()+"");
                     result.values = allProduct;
                     result.count = allProduct.size();
+
                 }
             }
             return result;
