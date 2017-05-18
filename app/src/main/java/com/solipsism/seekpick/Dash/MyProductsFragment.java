@@ -40,7 +40,7 @@ import java.util.Map;
  */
 public class MyProductsFragment extends Fragment {
     ListView listview;
-    List<Product> dataList;
+    List<Product> dataList,tempList;
     Dialog progressDialog;
     EditText search;
     ProductsAdapter adapter;
@@ -80,15 +80,19 @@ public class MyProductsFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
-                adapter.notifyDataSetChanged();
+                String ss=s.toString();
+
+                adapter.getFilter().filter(ss);
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                Log.e("After string",s+"5");
             }
+
         });
+
         return view;
     }
     public   boolean isonline(){
@@ -107,6 +111,7 @@ public class MyProductsFragment extends Fragment {
                         if(response.length()>2) {
                             Log.e("response of items ",response);
                             dataList = ProductsJsonParser.parsefeed(response);
+                            tempList=dataList;
                             if (progressDialog != null) {
                                 progressDialog.cancel();
                                 progressDialog.hide();
@@ -153,5 +158,4 @@ public class MyProductsFragment extends Fragment {
         requestQueue.add(stringRequest);
 
     }
-
 }
