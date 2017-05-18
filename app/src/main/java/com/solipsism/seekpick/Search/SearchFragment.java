@@ -2,13 +2,10 @@ package com.solipsism.seekpick.Search;
 
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -21,7 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,6 +33,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.solipsism.seekpick.Dash.DashActivity;
+import com.solipsism.seekpick.Dash.Shopkeeper;
+import com.solipsism.seekpick.Dash.ShopkeeperJsonParser;
 import com.solipsism.seekpick.R;
 
 import java.io.Serializable;
@@ -55,14 +53,13 @@ public class SearchFragment extends Fragment {
     }
 
     List<ListItem> datalist;
+    List<Shopkeeper> datalist2;
     EditText searchView;
     Button searchButton,nearby;
-    List<Shopkeeper> datalist2;
     ImageButton range1, range2, range3;
     String searchText = "", sLat = "", sLong = "", range = "5";
     float zoom = (float) 13.0;
     GPSTracker gps;
-    Dialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -170,17 +167,7 @@ public class SearchFragment extends Fragment {
                                 .appendPath("search")
                                 .appendQueryParameter("id", searchText);
                         String urlQuery = builder.build().toString();
-                        Log.e("url ", urlQuery);/*
-                        progressDialog = new ProgressDialog(getActivity());
-                        progressDialog.setTitle("Searching...");
-                        progressDialog.setCancelable(false);
-                        progressDialog.show();*/
-                        progressDialog = new Dialog(getActivity());
-                        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        progressDialog.setContentView(R.layout.custom_dialog_progress);
-                        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                        progressDialog.setCancelable(false);
-                        progressDialog.show();
+                        Log.e("url ", urlQuery);
                         search(urlQuery);
                     }
                 } else {
@@ -193,19 +180,9 @@ public class SearchFragment extends Fragment {
         nearby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    Location location = gps.getLocation();
-                    sLat = String.valueOf(location.getLatitude());
-                    sLong = String.valueOf(location.getLongitude());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                progressDialog = new Dialog(getActivity());
-                progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                progressDialog.setContentView(R.layout.custom_dialog_progress);
-                progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                progressDialog.setCancelable(false);
-                progressDialog.show();
+                Location location = gps.getLocation();
+                sLat = String.valueOf(location.getLatitude());
+                sLong = String.valueOf(location.getLongitude());
                 nearbyShop("https://seekpick.herokuapp.com/search/nearby");
             }
         });
@@ -223,33 +200,18 @@ public class SearchFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response.length() > 2) {
-                            Intent i = new Intent(getActivity(), MapsActivity.class);
-                            datalist = SearchJsonParser.parsefeed(response);
-                            i.putExtra("response", response);
-                            i.putExtra("zoom", zoom);
-                            i.putExtra("itemList", (Serializable) datalist);
-                            gps.stopUsingGPS();
-                            if (progressDialog != null) {
-                                progressDialog.cancel();
-                                progressDialog.hide();
-                            }
-                            startActivity(i);
-                        } else {
-                            if (progressDialog != null) {
-                                progressDialog.cancel();
-                                progressDialog.hide();
-                            }
-                            Toast.makeText(getActivity(), "No items found", Toast.LENGTH_SHORT).show();
-                        }
+                        Intent i = new Intent(getActivity(), MapsActivity.class);
+                        datalist = SearchJsonParser.parsefeed(response);
+
+                        i.putExtra("response", response);
+                        i.putExtra("zoom", zoom);
+                        i.putExtra("itemList", (Serializable) datalist);
+                        gps.stopUsingGPS();
+                        startActivity(i);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (progressDialog != null) {
-                    progressDialog.cancel();
-                    progressDialog.hide();
-                }
                 Log.e("Search error", String.valueOf(error));
                 Toast.makeText(getActivity(), "Cannot find your location", Toast.LENGTH_SHORT).show();
             }
@@ -279,12 +241,8 @@ public class SearchFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (progressDialog != null) {
-                            progressDialog.cancel();
-                            progressDialog.hide();
-                        }
                         datalist2 = ShopkeeperJsonParser.parsefeed(response);
-                        Intent i = new Intent(getActivity(), NearMapsActivity.class);
+                       Intent i = new Intent(getActivity(), MapsActivity2.class);
                         i.putExtra("response", response);
                         i.putExtra("zoom", zoom);
                         i.putExtra("itemList", (Serializable) datalist2);
@@ -294,10 +252,6 @@ public class SearchFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (progressDialog != null) {
-                    progressDialog.cancel();
-                    progressDialog.hide();
-                }
                 Log.e("Search error", String.valueOf(error));
                 Toast.makeText(getActivity(), "Cannot find your location", Toast.LENGTH_SHORT).show();
             }
