@@ -96,7 +96,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
             @Override
             public void onInfoWindowClick(Marker arg0) {
                 resultShop = items.get(markerTitles.indexOf(arg0.getTitle()));
-                bottomSheetDialogFragment = new CustomBottomSheetDialogFragment();
+                bottomSheetDialogFragment = new BottomSheetDialogFragment();
                 bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
             }
 

@@ -29,6 +29,7 @@
                 android:id="@+id/edit_product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/border_blue"
                 android:hint="Enter name of product" />
 
             <TextView
@@ -40,6 +41,7 @@
                 android:textSize="20sp" />
 
             <EditText
+                android:background="@drawable/border_blue"
                 android:id="@+id/edit_product_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,6 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter keywords"
+                android:background="@drawable/border_blue"
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLines="6" />
 

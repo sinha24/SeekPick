@@ -31,6 +31,7 @@
                 android:id="@+id/item_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/border_blue"
                 android:hint="Enter name of product" />
 
             <TextView
@@ -46,6 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter MRP in Rs."
+                android:background="@drawable/border_blue"
                 android:inputType="number" />
 
             <TextView
@@ -61,6 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter keywords"
+                android:background="@drawable/border_blue"
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLines="6" />
 
