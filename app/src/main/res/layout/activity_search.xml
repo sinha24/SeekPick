@@ -1,63 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.solipsism.seekpick.SearchActivity">
+    tools:context="com.solipsism.seekpick.Search.SearchActivity">
+
+
     <LinearLayout
-        android:layout_weight="1"
-        android:gravity="center"
+        android:id="@+id/bg1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="9sp">
+        android:weightSum="10"
+        android:background="#03A9F4">
 
-        <EditText
-            android:id="@+id/search_text"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@android:drawable/ic_search_category_default"
-            android:hint="Search Stores...">
+            android:layout_height="0sp"
+            android:layout_weight="7">
 
-        </EditText>
+            <FrameLayout
+                android:id="@+id/searchFrame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-        <Button
-            android:id="@+id/search_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SEARCH" />
+        </LinearLayout>
 
-    </LinearLayout>
-</ScrollView>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/search_sign_in"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Are you a seller, SIGN IN"
-            android:textAlignment="center" />
+            android:layout_height="0sp"
+            android:background="@drawable/circular_layout1"
+            android:layout_weight="3">
 
-        <ImageView
-            android:id="@+id/search_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10sp"
-            android:src="@drawable/ic_up_arrow" />
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/search_sign_in"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Are you a seller, SIGN IN"
+                    android:textAlignment="center" />
+
+                <ImageView
+                    android:id="@+id/search_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10sp"
+                    android:contentDescription="^"
+                    android:src="@drawable/ic_balloon" />
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

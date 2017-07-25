@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.solipsism.seekpick.Dash.MyProductsFragment">
+
+    <EditText
+        android:id="@+id/search_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="4sp"
+        android:layout_marginBottom="9sp"
+        android:hint="Search"/>
+
+    <ListView
+        android:id="@+id/List_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="9sp" />
+</LinearLayout>

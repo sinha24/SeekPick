@@ -16,7 +16,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#fff">
+        android:background="@drawable/bg_sign_up">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="16sp">
+                android:padding="9sp">
 
 
                 <android.support.design.widget.TextInputLayout
@@ -41,6 +41,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Email"
+                        android:background="@drawable/border_blue"
+                        android:drawableStart="@drawable/email"
+                        android:drawablePadding="4sp"
                         android:inputType="textEmailAddress"
                         android:maxLines="1" />
                 </android.support.design.widget.TextInputLayout>
@@ -55,7 +58,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Shop Name /Business Identity "
+                        android:drawableStart="@drawable/store"
+                        android:drawablePadding="4sp"
                         android:inputType="text"
+                        android:background="@drawable/border_blue"
                         android:maxLines="1" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -68,7 +74,10 @@
                         android:id="@+id/signup_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/border_blue"
                         android:hint="Address"
+                        android:drawableStart="@drawable/directions"
+                        android:drawablePadding="4sp"
                         android:inputType="text" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -83,21 +92,27 @@
                         android:layout_weight="7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                    <AutoCompleteTextView
-                        android:id="@+id/signup_pincode"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="PIN CODE"
-                        android:inputType="number"
-                        android:maxLength="6" />
+                        <AutoCompleteTextView
+                            android:id="@+id/signup_pincode"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="PIN CODE"
+                            android:background="@drawable/border_blue"
+                            android:drawableStart="@drawable/placeholder"
+                            android:drawablePadding="4sp"
+                            android:inputType="number"
+                            android:maxLength="6" />
                     </android.support.design.widget.TextInputLayout>
 
                     <ImageButton
                         android:id="@+id/signup_location"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="55sp"
+                        android:padding="4sp"
                         android:layout_weight="1"
-                        android:src="@android:drawable/ic_menu_mylocation" />
+                        android:background="#FFC107"
+                        android:contentDescription="Add Location"
+                        android:src="@drawable/ic_add_location" />
                 </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -109,6 +124,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Phone Number"
+                        android:background="@drawable/border_blue"
+                        android:drawableStart="@drawable/phone"
+                        android:drawablePadding="4sp"
                         android:inputType="number"
                         android:maxLength="10" />
                 </android.support.design.widget.TextInputLayout>
@@ -120,9 +138,12 @@
 
                     <AutoCompleteTextView
                         android:id="@+id/signup_username"
+                        android:background="@drawable/border_blue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Username"
+                        android:drawableStart="@drawable/users"
+                        android:drawablePadding="4sp"
                         android:inputType="text"
                         android:maxLines="1" />
                 </android.support.design.widget.TextInputLayout>
@@ -135,8 +156,11 @@
                     <AutoCompleteTextView
                         android:id="@+id/signup_password"
                         android:layout_width="match_parent"
+                        android:background="@drawable/border_blue"
                         android:layout_height="wrap_content"
                         android:hint="Password"
+                        android:drawableStart="@drawable/password"
+                        android:drawablePadding="4sp"
                         android:inputType="textPassword"
                         android:maxLines="1" />
                 </android.support.design.widget.TextInputLayout>
@@ -151,8 +175,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Confirm Password"
+                        android:drawableStart="@drawable/password"
+                        android:drawablePadding="4sp"
                         android:inputType="textPassword"
-                        android:maxLines="1" />
+                        android:background="@drawable/border_blue"
+                        android:maxLines="1"
+                        android:layout_marginBottom="10dp"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
@@ -160,7 +188,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sign up"
-                    android:textSize="20sp" />
+                    android:background="#673AB7"
+                    android:textStyle="bold"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
 
             </LinearLayout>
         </ScrollView>
